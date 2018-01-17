@@ -1,22 +1,22 @@
 <?php
 
-require_once './include/commonhead.inc.php';
+// require_once './include/commonhead.inc.php';
 
-if(!isset($_SESSION['admin'])){
-    Result::error('no permission~');
+// if(!isset($_SESSION['admin'])){
+//     Result::error('no permission~');
+// }
+
+if(!isset($_GET['action_type'])){
+    Result::error('wrong action_type');
 }
 
-if(!isset($_GET['action'])){
-    Result::error('wrong action');
+$action_type = $_GET['action_type'];
+
+if(preg_match('/[^a-zA-Z]+/',$action_type)){
+    Result::error('wrong qweaction_type');
 }
 
-$action = $_GET['action'];
-
-if(preg_match('/[^a-zA-Z]+/',$action)){
-    Result::error('wrong action');
-}
-
-switch($action){
+switch($action_type){
     case 'getUserInfo':
         info();
         break;
@@ -44,6 +44,18 @@ switch($action){
     case 'deleteUser':
         deleteUser();
         break;
+    case 'saveEmail':
+        saveEmail();
+}
+
+function saveEmail(){
+    global $db;
+    //$email = Request::$body['email'];
+    $re =  $_SESSION['user_id'];
+    $_SESSION['who'] = '0090';
+//    echo $re;
+
+   Result::success($re);
 }
 
 function info(){

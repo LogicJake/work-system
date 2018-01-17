@@ -1,3 +1,12 @@
+## todo
+to do list:
+1. 一键提醒所有人  一键提醒未交的  
+2. 个人信息 填写姓名 邮箱 学校 学校的选项 默认是南航
+3. 本地登录或者教务处登陆 爬教务处班级信息,姓名
+4. 下载打包
+5. 数据库 user work(ext(string),add_time,start_time,end_time,target_group)
+6. 后缀名 接口 存数据库
+
 # manage-system #
 基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。[线上地址](http://blog.gdfengshuo.com/example/work/)
 

@@ -18,6 +18,10 @@ export default new Router({
                     component: resolve => require(['../components/page/Readme.vue'], resolve)
                 },
                 {
+                    path: '/personalinfo',
+                    component: resolve => require(['../components/page/PersonalInfo.vue'], resolve)
+                },
+                {
                     path: '/basetable',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve)
                 },
@@ -48,6 +52,14 @@ export default new Router({
                 {
                     path: '/drag',
                     component: resolve => require(['../components/page/DragList.vue'], resolve)    // 拖拽列表组件
+                },
+                {
+                    path: '/drag1',
+                    component: resolve => require(['../components/page/DragList.vue'], resolve)    // 拖拽列表组件
+                },
+                {
+                    path: '/work-release',
+                    component: resolve => require(['../components/page/WorkRelease.vue'], resolve)    // 上传作业组件
                 }
             ]
         },

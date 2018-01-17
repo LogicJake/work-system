@@ -1,0 +1,68 @@
+<template>
+    <div>
+        <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item><i class="el-icon-date"></i>作业</el-breadcrumb-item>
+                <el-breadcrumb-item>个人信息</el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
+        <div class="form-box">
+         
+            <el-form :model="work_form" :rules="work_form_rules" ref="work_form" label-width="80px">
+                <!-- <el-form-item  prop="name" label="姓名">
+                    <el-input v-model="work_form.name"></el-input>
+                </el-form-item> -->
+                <el-form-item  prop="email" label="邮箱">
+                    <el-input v-model="work_form.email"></el-input>
+                </el-form-item>
+                 <el-form-item>
+                    <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
+                    <el-button>取消</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+
+    </div>
+</template>
+
+<script>
+    export default {
+        data: function(){
+            return {
+                work_form: {
+                    email: ''
+                },
+                work_form_rules: {
+                    email: [
+                        { required: true, message: '请输入邮箱', trigger: 'blur' }
+                    ]
+                   
+                }
+            }
+        },
+        methods: {
+            onSubmit(formName) {
+                const self = this;
+                console.log(this);
+                self.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        this.$ajax.post('http://localhost/work-system/api/index.php?action=saveEmail',{
+                            'email': this.rule_Form.email
+                        }).then(re => {
+                        //    console.log(re.data);
+                            console.log(re);
+                            if(re.data.code == 0){
+                                localStorage.setItem('ms_username',self.rule_Form.username);
+                            //    self.$router.push('/readme');
+                            }else{
+                             //    self.$router.push('/readme');
+                            //    this.$message.error('似乎密码出现了错误~');
+                            }
+                        })
+                        
+                    }
+                });
+            }
+        }
+    }
+</script>

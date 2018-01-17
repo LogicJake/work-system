@@ -2,7 +2,10 @@
 
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
-session_start();
+
+if(!isset($_SESSION)){
+    session_start();
+}
 
 require_once './include/Medoo.php';
 require_once './include/config.php';

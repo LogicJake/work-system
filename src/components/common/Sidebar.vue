@@ -30,6 +30,11 @@
                         title: '自述'
                     },
                     {
+                        icon: 'el-icon-setting',
+                        index: 'personalinfo',
+                        title: '个人信息'
+                    },
+                    {
                         icon: 'el-icon-menu',
                         index: '2',
                         title: '表格',
@@ -76,6 +81,11 @@
                         icon: 'el-icon-upload2',
                         index: 'drag',
                         title: '拖拽'
+                    },
+                    {
+                        icon: 'el-icon-upload2',
+                        index: 'work-release',
+                        title: '作业发布'
                     }
                 ]
             }

@@ -1,6 +1,6 @@
 <template>
     <div class="login-wrap">
-        <div class="ms-title">后台管理系统</div>
+        <div class="ms-title">作业提交系统</div>
         <div class="ms-login">
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="0px" class="demo-ruleForm">
                 <el-form-item prop="username">
@@ -54,17 +54,19 @@
                 console.log(this);
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('http://localhost/work-system/api/login.php?action=login',{
-                            'user': this.ruleForm.username,
-                            'passwd': this.ruleForm.password
+                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=postLogin&action_type=login&user='+this.ruleForm.username+'&passwd='+this.ruleForm.password,{
+                            // 'user': this.ruleForm.username,
+                            // 'passwd': this.ruleForm.password
                         }).then(re => {
-                            console.log(re.data);
                             console.log(re);
+                            console.log('pp');
                             if(re.data.code == 0){
                                 localStorage.setItem('ms_username',self.ruleForm.username);
-                                self.$router.push('/readme');
-                            }else{
-                                this.$message.error('似乎密码出现了错误~');
+                                  console.log(re.data);
+                               self.$router.push('/readme');
+                            }else{console.log(re.data);
+                             ///   self.$router.push('/readme');
+                               this.$message.error('似乎密码出现了错误~');
                             }
                         })
                         

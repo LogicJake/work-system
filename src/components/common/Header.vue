@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo">后台管理系统</div>
+        <div class="logo">作业提交系统</div>
         <div class="user-info">
             <el-dropdown trigger="click" @command="handleCommand">
                 <span class="el-dropdown-link">
@@ -30,9 +30,22 @@
         methods:{
             handleCommand(command) {
                 if(command == 'loginout'){
-                    localStorage.removeItem('ms_username')
+                    localStorage.removeItem('ms_username');console.log('ppp');
+                    // this.$ajax.post('http://localhost/work-system/api/index.php?_action=postLogin&action_type=logout').then(re => {
+                    //         console.log(re);
+                    //        // console.log(re);
+                            
+                    //     });
                     this.$router.push('/login');
                 }
+            },
+            logout(){
+                console.log('ppp');
+                this.$ajax.post('http://localhost/work-system/api/index.php?_action=postLogin&action_type=logout').then(re => {
+                            console.log(re);
+                           // console.log(re);
+                            
+                        })
             }
         }
     }
