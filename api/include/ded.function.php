@@ -19,7 +19,13 @@
 	]);
 	$response = curl_exec($curl);
 	curl_close($curl);
-	return (strstr($response, 'switch (0){') != false);
+if (strstr($response, 'switch (0){') != false) {
+        $res['status'] = 1;
+        $res['cookie'] = $cookie;
+    }
+    else
+        $res['status'] = 0;
+    return $res;
 }
 // 研究生登录
 function gsmverify($gsmid, $password) {

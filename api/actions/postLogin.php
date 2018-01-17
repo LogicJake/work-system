@@ -32,7 +32,6 @@ function checkLogin(){
         Result::error('error012300');
     }else {
         $result = check_login($_GET['user'],$_GET['passwd']);
-        // var_dump($result);
         if($result['status']===1)
         {
             $GLOBALS['stu_id'] = $result['id'];
