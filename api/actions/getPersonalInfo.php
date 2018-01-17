@@ -1,4 +1,5 @@
 <?php
+require_once './include/info.function.php';
 if(!isset($_GET['action_type'])){
     Result::error('wrong action_type');
 }
@@ -20,7 +21,26 @@ function saveEmail(){
     // $re =  $_SESSION['user_id'];
 //     $_SESSION['who'] = '0090';
 //    echo $re;
-     echo $GLOBALS['uid'];
+    // $email = $_POST['email'];
+    // echo $email;
+    if(isset(Request::$body['email']))
+    {
+        $email = Request::$body['email'];
+        $re = save_email($GLOBALS['uid'],$email);
+        if($re){
+            $return['status'] = 1;
+            Result::success($return);
+        }
+        else {
+            $return['status'] = 0;
+            Result::error($return);
+        }
+    }
+    else {
+         $return['status'] = 0;
+         Result::error($return);
+    }
+    //  echo $GLOBALS['uid'];
 
 //    Result::success($re);
 }

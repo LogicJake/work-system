@@ -46,7 +46,10 @@
                 console.log(this);
                 let token = localStorage.getItem('token');
                 console.log(token);
-                self.$refs[formName].validate((valid) => {
+                var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                if (filter.test(this.work_form.email))
+                {
+                     self.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$ajax.post('http://localhost/work-system/api/index.php?_action=getPersonalInfo&action_type=saveEmail&token='+token,{
                             'email': this.work_form.email
@@ -64,6 +67,14 @@
                         
                     }
                 });
+                }
+                else {
+                       alert('您的电子邮件格式不正确');
+
+                }
+             
+
+               
             }
         }
     }
