@@ -57,7 +57,6 @@
                         //    console.log(re.data);
                             console.log(re);
                             if(re.data.code == 0){
-                                localStorage.setItem('ms_username',self.work_form.username);
                                 localStorage.setItem('has_email',1);
                                 self.$router.push('/readme');
                                 location.reload();

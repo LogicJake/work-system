@@ -58,6 +58,11 @@
                     },
                     {
                         icon: 'el-icon-setting',
+                        index: 'news',
+                        title: '最新通知'
+                    },
+                    {
+                        icon: 'el-icon-setting',
                         index: 'personalinfo',
                         title: '个人信息'
                     },

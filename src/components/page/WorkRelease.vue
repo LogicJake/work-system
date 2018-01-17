@@ -13,11 +13,16 @@
                     <el-input v-model="work_form.work_name"></el-input>
                 </el-form-item>
                 <el-form-item prop="target_group" label="需提交者">
-                    <el-select v-model="work_form.target_group" placeholder="请选择">
-                        <el-option key="1615402" label="1615402" value="1615402"></el-option>
-                        <el-option key="1615403" label="1615403" value="1615403"></el-option>
-                        <el-option key="1615401" label="1615401" value="1615401"></el-option>
-                    </el-select>
+                    <!-- <el-checkbox-group v-model="work_form.target_group">
+                        <el-checkbox label="1615402" name="target_group"></el-checkbox>
+                        <el-checkbox label="1615403" name="target_group"></el-checkbox>
+                        <el-checkbox label="1615401" name="target_group"></el-checkbox>
+                    </el-checkbox-group> -->
+                    <el-checkbox-group v-model="work_form.target_group">
+                        <el-checkbox label="1615402" name="target_group"></el-checkbox>
+                        <el-checkbox label="1615403" name="target_group"></el-checkbox>
+                        <el-checkbox label="1615401" name="target_group"></el-checkbox>
+                    </el-checkbox-group>
                 </el-form-item>
                 <el-form-item prop="time" label="日期时间">
                     <el-col :span="11">
@@ -33,9 +38,9 @@
                 </el-form-item>
                 <el-form-item prop="allow_ext" label="允许文件">
                     <el-checkbox-group v-model="work_form.allow_ext">
-                        <el-checkbox label="docx" name="type"></el-checkbox>
-                        <el-checkbox label="zip" name="type"></el-checkbox>
-                        <el-checkbox label="rar" name="type"></el-checkbox>
+                        <el-checkbox label="docx" name="allow_ext"></el-checkbox>
+                        <el-checkbox label="zip" name="allow_ext"></el-checkbox>
+                        <el-checkbox label="rar" name="allow_ext"></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <!-- <el-form-item prop="type" label="单选框">
@@ -64,7 +69,7 @@
             return {
                 work_form: {
                     work_name: '',
-                    target_group: '',
+                    target_group: ['1615402','1615403'],
                     start_time: '',
                     end_time: '',
                     inform_all: true,
@@ -76,9 +81,9 @@
                     work_name: [
                         { required: true, message: '请输入作业名', trigger: 'blur' }
                     ],
-                    target_group: [
-                        { required: true, message: '请输入需提交者', trigger: 'blur' }
-                    ],
+                    // target_group: [
+                    //     { required: true, message: '请输入需提交者', trigger: 'blur' }
+                    // ],
                     // allow_ext: [
                     //     { required: true, message: '请输入上传类型', trigger: 'blur' }
                     // ],
@@ -107,7 +112,7 @@
                     if (valid) {
                         this.$ajax.post('http://localhost/work-system/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
                             'work_name': this.work_form.work_name,
-                            'target_group': this.work_form.target_group,
+                            'target_group': this.work_form.target_group.join("-"),
                             'start_time': Date.parse(new Date(this.work_form.start_time))/1000,
                             'end_time': Date.parse(new Date(this.work_form.end_time))/1000,
                             'inform_all': this.work_form.inform_all,
@@ -118,7 +123,8 @@
                             console.log(re);
                             if(re.data.code == 0){
                                 //localStorage.setItem('ms_username',self.rule_Form.username);
-                                //self.$router.push('/readme');
+                                self.$router.push('/news');
+                                this.$message.success('作业发布成功');
                             }else{
                                  //self.$router.push('/readme');
                                 this.$message.error('似乎密码出现了错误~');

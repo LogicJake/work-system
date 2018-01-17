@@ -16,10 +16,38 @@ switch($action_type){
     case 'releaseNewwork':
         releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content);
         break;
-    case 'login':
-        checkLogin();
+    case 'getWorks':
+        getWorks();
         break;
 }
+function getWorks()
+{
+    global $db;
+    $re = $db->select('work',[
+        'work_name',
+        'target_group',
+        'add_time',
+        'start_time',
+        'end_time',
+        'allow_ext',
+        'attention_content'
+    ],[
+        "ORDER" => ["add_time" => "DESC"]
+    ]
+    );
+    if($re)
+    {
+        $return['status'] = 1;
+        $return['works'] = $re;
+        Result::success($return);
+    }else {
+        $return['status'] = 0;
+        Result::error($return);
+    }
+
+}
+
+
 function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content)
 {
     global $db;
@@ -33,6 +61,13 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
         'allow_ext' => $allow_ext,
         'attention_content' => $attention_content
     ]);
+    if($inform_all)
+    {
+        /**
+         * 通知所在分组的人
+         * 
+         */
+    }
     if($re)
     {
         $return['status'] = 1;

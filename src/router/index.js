@@ -22,6 +22,10 @@ export default new Router({
                     component: resolve => require(['../components/page/PersonalInfo.vue'], resolve)
                 },
                 {
+                    path: '/news',
+                    component: resolve => require(['../components/page/News.vue'], resolve)
+                },
+                {
                     path: '/basetable',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve)
                 },
@@ -66,10 +70,6 @@ export default new Router({
         {
             path: '/login',
             component: resolve => require(['../components/page/Login.vue'], resolve)
-        },
-        {
-            path: '/personalinfo',
-            component: resolve => require(['../components/page/PersonalInfo.vue'], resolve)
-        },
+        }
     ]
 })
