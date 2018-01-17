@@ -61,7 +61,7 @@
                             console.log(re);
                             console.log('pp');
                             if(re.data.code == 0){
-                                localStorage.setItem('ms_username',self.ruleForm.username);
+                                localStorage.setItem('ms_username',re.data.data.user_name);
                                 localStorage.setItem("token",re.data.data.token);
                                 localStorage.setItem("has_email",1);
                                 console.log(re.data);
