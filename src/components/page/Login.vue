@@ -62,6 +62,7 @@
                             console.log('pp');
                             if(re.data.code == 0){
                                 localStorage.setItem('ms_username',self.ruleForm.username);
+                                localStorage.setItem("token",re.data.data.token);
                                   console.log(re.data);
                                self.$router.push('/readme');
                             }else{console.log(re.data);

@@ -44,15 +44,17 @@
             onSubmit(formName) {
                 const self = this;
                 console.log(this);
+                let token = localStorage.getItem('token');
+                console.log(token);
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('http://localhost/work-system/api/index.php?action=saveEmail',{
-                            'email': this.rule_Form.email
+                        this.$ajax.post('http://localhost/work-system/api/index.php?_action=getPersonalInfo&action_type=saveEmail&token='+token,{
+                            'email': this.work_form.email
                         }).then(re => {
                         //    console.log(re.data);
                             console.log(re);
                             if(re.data.code == 0){
-                                localStorage.setItem('ms_username',self.rule_Form.username);
+                                localStorage.setItem('ms_username',self.work_form.username);
                             //    self.$router.push('/readme');
                             }else{
                              //    self.$router.push('/readme');

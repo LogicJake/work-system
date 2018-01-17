@@ -38,12 +38,12 @@ function checkLogin(){
             $GLOBALS['stu_id'] = $result['id'];
             $GLOBALS['stu_name'] = $result['user_name'];
             $GLOBALS['stu_num'] = $result['user_num'];
-            // $_SESSION['user_id'] = $_GET['user'];
+            $_SESSION['user_id'] = $result['id'];
 
             Result::success($result);
         }
         else {
-            // $_SESSION['user_id'] = $_GET['user'];
+            $_SESSION['user_id'] = 99;
 
             Result::error('check failed');
         }

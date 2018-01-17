@@ -17,10 +17,10 @@ switch($action_type){
 function saveEmail(){
 //     global $db;
 //     //$email = Request::$body['email'];
-//     $re =  $_SESSION['user_id'];
+    // $re =  $_SESSION['user_id'];
 //     $_SESSION['who'] = '0090';
-// //    echo $re;
-    echo $GLOBALS['stu_id'];
+//    echo $re;
+     echo $GLOBALS['uid'];
 
 //    Result::success($re);
 }
