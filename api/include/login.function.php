@@ -78,7 +78,8 @@ function check_ded_login($user,$passwd)
         $re = $db->get("user",[
             "id",
             "stu_name",
-            "stu_num"
+            "stu_num",
+            "email"
         ],[
             "stu_num" => $user_name,
             "passwd" => md5($user_passwd),
@@ -90,6 +91,7 @@ function check_ded_login($user,$passwd)
             $return['id'] = $re['id'];
             $return['user_name'] = $re['stu_name'];
             $return['user_num'] = $re['stu_num'];
+            $return['email'] = $re['email'];
             $return['token'] = $token;
         }
         else

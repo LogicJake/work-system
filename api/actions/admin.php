@@ -44,18 +44,18 @@ switch($action_type){
     case 'deleteUser':
         deleteUser();
         break;
-    case 'saveEmail':
-        saveEmail();
+    case 'sendEmail':
+        sendEmail();
+        break;
 }
-
-function saveEmail(){
-    global $db;
-    //$email = Request::$body['email'];
-    $re =  $_SESSION['user_id'];
-    $_SESSION['who'] = '0090';
-//    echo $re;
-
-   Result::success($re);
+function sendEmail(){
+    $to = "849467474@qq.com";
+    $subject = "Test mail";
+    $message = "Hello! This is a simple email message.";
+    $from = "849467474@qq.com";
+    $headers = "From: $from";
+    mail($to,$subject,$message,$headers);
+    echo "Mail Sent.";
 }
 
 function info(){

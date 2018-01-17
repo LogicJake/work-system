@@ -63,8 +63,18 @@
                             if(re.data.code == 0){
                                 localStorage.setItem('ms_username',self.ruleForm.username);
                                 localStorage.setItem("token",re.data.data.token);
-                                  console.log(re.data);
-                               self.$router.push('/readme');
+                                console.log(re.data);
+                                var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                                if (filter.test(re.data.data))
+                                {
+                                    // self.$router.push('/personalinfo');
+                                   self.$router.push('/readme');
+                                }
+                                else
+                                {
+                                    self.$router.push('/personalinfo');
+                                }
+                               
                             }else{console.log(re.data);
                              ///   self.$router.push('/readme');
                                this.$message.error('似乎密码出现了错误~');
