@@ -63,15 +63,17 @@
                             if(re.data.code == 0){
                                 localStorage.setItem('ms_username',self.ruleForm.username);
                                 localStorage.setItem("token",re.data.data.token);
+                                localStorage.setItem("has_email",1);
                                 console.log(re.data);
                                 var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                                if (filter.test(re.data.data))
+                                if (filter.test(re.data.data.email))
                                 {
                                     // self.$router.push('/personalinfo');
                                    self.$router.push('/readme');
                                 }
                                 else
                                 {
+                                    localStorage.setItem("has_email",0);
                                     self.$router.push('/personalinfo');
                                 }
                                

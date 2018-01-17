@@ -58,10 +58,12 @@
                             console.log(re);
                             if(re.data.code == 0){
                                 localStorage.setItem('ms_username',self.work_form.username);
-                            //    self.$router.push('/readme');
+                                localStorage.setItem('has_email',1);
+                                self.$router.push('/readme');
+                                location.reload();
                             }else{
                              //    self.$router.push('/readme');
-                            //    this.$message.error('似乎密码出现了错误~');
+                               this.$message.error('邮箱没保存成功~');
                             }
                         })
                         
