@@ -81,7 +81,7 @@
                              ///   self.$router.push('/readme');
                                this.$message.error('似乎密码出现了错误~');
                             }
-                        })
+                        });
                         
                     }
                 });

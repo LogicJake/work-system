@@ -1,22 +1,33 @@
 <template>
-    <div>
+   <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-setting"></i> 自述</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        
         <div class="ms-doc">
-            <h3>通知</h3>
-            <el-card v-for="o in 4" class="box-card">
-                <div slot="header" class="clearfix">
-                    <span>卡片名称</span>
-                    <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
-                </div>
-                <div v-for="o in 4" :key="o" class="text item">
-                    {{'列表内容 ' + o }}
-                </div>
-            </el-card>
+            <h3>README.md</h3>
+            <div :data="works" class="card">
+                <el-card  v-for="work in works" :key="work" class="box-card">
+                    <div slot="header" class="clearfix">
+                        <span>{{ work.work_name}}</span>
+                        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                    </div>
+                    <div  class="text item">
+                        开始时间: {{ (new Date(work.start_time*1000)).Format("yyyy-M-d h:m:s.S") }}
+                    </div>
+                    <div  class="text item">
+                        截止时间: {{ (new Date(work.end_time*1000)).Format("yyyy-M-d h:m:s.S") }}
+                    </div>
+                    <div  class="text item">
+                        提交须知: {{ work.attention_content }}
+                    </div>
+                    <div  class="text item">
+                        允许文件: {{ work.allow_ext }}
+                    </div>
+                </el-card>
+
+            </div>
         </div>
 
     </div>
@@ -24,27 +35,52 @@
 
 <script>
     export default {
-        data: function(){
-            var works = 'pp';
-            this.$ajax.get('http://localhost/work-system/api/index.php?_action=postWork&action_type=getWorks&token='+token
-            ).then(re => {
-                        //    console.log(re.data);
-                            console.log(re);
-                            // if(re.data.code == 0){
-                            //     localStorage.setItem('has_email',1);
-                            //     self.$router.push('/readme');
-                            //     location.reload();
-                            // }else{
-                            //  //    self.$router.push('/readme');
-                            //    this.$message.error('邮箱没保存成功~');
-                            // }
-                        });
-            return {}
+        data() {
+            return {
+                url: '../../../static/vuetable.json',
+                works: [],
+                cur_page: 1,
+                multipleSelection: [],
+                select_cate: '',
+                select_word: ''
+            }
+        },
+        created(){
+            this.getData();
+            //  console.log(this.works);
+        },
+        methods: {
+            getData(){
+                let token = localStorage.getItem('token');
+                this.$ajax.get('http://localhost/work-system/api/index.php?_action=postWork&action_type=getWorks&token='+token,{
+                    
+                }).then(re => {
+                    this.works = re.data.data.works;
+                 //   console.log(re.data.data.works);
+                   console.log(this.works);
+                    console.log('ppp');
+                })
+            },
+           
         }
     }
 </script>
 
 <style scoped>
+.handle-box{
+    margin-bottom: 20px;
+}
+.handle-del{
+    border-color: #bfcbd9;
+    color: #999;
+}
+.handle-select{
+    width: 120px;
+}
+.handle-input{
+    width: 300px;
+    display: inline-block;
+}
   .text {
     font-size: 14px;
   }
@@ -65,48 +101,4 @@
   .box-card {
     width: 480px;
   }
-    .ms-doc{
-        width:100%;
-        max-width: 980px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    }
-    .ms-doc h3{
-        padding: 9px 10px 10px;
-        margin: 0;
-        font-size: 14px;
-        line-height: 17px;
-        background-color: #f5f5f5;
-        border: 1px solid #d8d8d8;
-        border-bottom: 0;
-        border-radius: 3px 3px 0 0;
-    }
-    .ms-doc article{
-        padding: 45px;
-        word-wrap: break-word;
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-bottom-right-radius: 3px;
-        border-bottom-left-radius: 3px;
-    }
-    .ms-doc article h1{
-        font-size:32px;
-        padding-bottom: 10px;
-        margin-bottom: 15px;
-        border-bottom: 1px solid #ddd;
-    }
-    .ms-doc article h2 {
-        margin: 24px 0 16px;
-        font-weight: 600;
-        line-height: 1.25;
-        padding-bottom: 7px;
-        font-size: 24px;
-        border-bottom: 1px solid #eee;
-    }
-    .ms-doc article p{
-        margin-bottom: 15px;
-        line-height: 1.5;
-    }
-    .ms-doc article .el-checkbox{
-        margin-bottom: 5px;
-    }
 </style>
