@@ -47,14 +47,18 @@
   "code": 0,
   "data": "send success"
 }
+```
 #### 失败
 ```
 {
   "code": 1,
   "data": "send failed"
 }
+```
+***
 
-## 发送验证码
+
+## 验证验证码
 | 名称 | 选项 |
 |:---:|:---:|
 | 接口地址 | /index.php?_action=verfyMailbox|
@@ -69,9 +73,13 @@
   "code": 0,
   "data": "success"
 }
+```
 #### 失败
 ```
 {
   "code": 0,
   "data": "fail"
 }
+```
+
+***
