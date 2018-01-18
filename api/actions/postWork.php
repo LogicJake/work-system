@@ -4,16 +4,17 @@ $action_type = $_GET['action_type'];
 if(preg_match('/[^a-zA-Z]+/',$action_type)){
     Result::error('wrong action_type');
 }
-$work_name = Request::$body['work_name'];
-$target_group = Request::$body['target_group'];
-$start_time = Request::$body['start_time'];
-$end_time = Request::$body['end_time'];
-$inform_all = Request::$body['inform_all'];
-$allow_ext = Request::$body['allow_ext'];
-$attention_content = Request::$body['attention_content'];
+
 
 switch($action_type){
     case 'releaseNewwork':
+    $work_name = Request::$body['work_name'];
+    $target_group = Request::$body['target_group'];
+    $start_time = Request::$body['start_time'];
+    $end_time = Request::$body['end_time'];
+    $inform_all = Request::$body['inform_all'];
+    $allow_ext = Request::$body['allow_ext'];
+    $attention_content = Request::$body['attention_content'];
         releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content);
         break;
     case 'getWorks':
