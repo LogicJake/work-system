@@ -26,21 +26,23 @@
                         允许文件: {{ work.allow_ext }}
                     </div>
                    
-                   <el-collapse accordion>
-  <el-collapse-item>
-    <template slot="title">
-      我要交作业<i class="header-icon el-icon-info"></i>
-    </template>
-     <el-upload
+                    <el-collapse accordion>
+                        <el-collapse-item>
+                            <template slot="title">
+                            我要交作业<i class="header-icon el-icon-info"></i>
+                            </template>
+                            <el-upload
                                 class="upload-demo"
                                 drag
-                                action="/api/posts/"
+                                :data='{work_id:work.id}'
+                                :action= 'uploadUrl'
+                                on-success="imageuploaded"
                                 multiple>
                                 <i class="el-icon-upload"></i>
                                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过2000kb</div>
                             </el-upload>
-  </el-collapse-item>
+                        </el-collapse-item>
 
 </el-collapse>
                     
@@ -84,14 +86,31 @@ Date.prototype.Format = function(fmt)
                 multipleSelection: [],
                 select_cate: '',
                 select_word: '',
-                 activeName: '1'
+                activeName: '1',
+                token:'',
+                uploadUrl:''
             }
         },
         created(){
+            this.token = localStorage.getItem('token');
+            this.uploadUrl = 'http://localhost/work-system/api/index.php?_action=upload&token=' + this.token;
+            console.log(this.uploadUrl);
+            console.log('ppppqweq');
             this.getData();
             //  console.log(this.works);
         },
         methods: {
+             imageuploaded(res) {
+                console.log(res);
+                console.log('ooouuu');
+                
+            },
+            handleError(){
+                this.$notify.error({
+                    title: '上传失败',
+                    message: '图片上传接口上传失败，可更改为自己的服务器接口'
+                });
+            },
             upload(w_id){
                 this.activeName = w_id;
             },

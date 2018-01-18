@@ -1,26 +1,42 @@
 <?
 require_once './include/commonhead.inc.php';
-
-if(!isset($_SESSION['admin'])){
-    Result::error('no permission~');
-}
+require_once './include/info.function.php';
+// if(!isset($_SESSION['admin'])){
+//     Result::error('no permission~');
+// }
 /**
  * 返回-1为过大
  *   2为出错
  *   3为拓展名违规
  */
 
-$file_path="/www/upload/";
+$file_path="upload/";
 //664权限为文件属主和属组用户可读和写，其他用户只读。
 if(is_dir($file_path)!=TRUE){
     mkdir($file_path,0664);
 }
 //定义允许上传的文件扩展名
 $ext_arr = array( "jpg", "jpeg", "png", "bmp");
+if(isset($_POST['data']))
+{
+    var_dump($_POST['data']);
+}
+
+
+
+if(isset($_POST['work_id']))
+{
+    var_dump($_POST['work_id']);
+}
+$user = get_person_info();
+$file_path.=$_POST['work_id'];
+if(is_dir($file_path)!=TRUE){
+    mkdir($file_path,0664);
+}
 
 if (empty($_FILES) === false) {
     //判断检查
-    if($_FILES["file"]["size"] > 1024*1024){//2M
+    if($_FILES["file"]["size"] > 2048*2048){//2M
         $result['status'] = -1;
         Result::success($result);
     }
@@ -45,9 +61,11 @@ if (empty($_FILES) === false) {
     $new_image_url = $imageName . ".jpg";
     move_uploaded_file($_FILES["file"]["tmp_name"],$file_path . $new_image_url);
 
-    $db->insert('image',[
-            'url' => $new_image_url,
-            'time' => time()
+    $db->insert('work_upload',[
+            'upload_by_user' => $GLOBALS['uid'],
+            'work_id' => $_POST['work_id'],
+            'file_name' => $new_image_url,
+            'add_time' => time()
     ]);
 
     $result['image_url'] = $new_image_url;
