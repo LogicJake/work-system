@@ -11,7 +11,7 @@
                 <el-card  v-for="work in works" :key="work" class="box-card">
                     <div slot="header" class="clearfix">
                         <span>{{ work.work_name}}</span>
-                        <el-button style="float: right; padding: 3px 0" type="text">操作按钮</el-button>
+                        <!-- <el-button style="float: right; padding: 3px 0" type="text"  @click="upload(work.id)">提交</el-button> -->
                     </div>
                     <div  class="text item">
                         开始时间: {{ (new Date(work.start_time*1000)).Format("yyyy-M-d h:m:s.S") }}
@@ -25,7 +25,27 @@
                     <div  class="text item">
                         允许文件: {{ work.allow_ext }}
                     </div>
+                   
+                   <el-collapse accordion>
+  <el-collapse-item>
+    <template slot="title">
+      我要交作业<i class="header-icon el-icon-info"></i>
+    </template>
+     <el-upload
+                                class="upload-demo"
+                                drag
+                                action="/api/posts/"
+                                multiple>
+                                <i class="el-icon-upload"></i>
+                                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                                <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+                            </el-upload>
+  </el-collapse-item>
+
+</el-collapse>
+                    
                 </el-card>
+                
 
             </div>
         </div>
@@ -34,6 +54,27 @@
 </template>
 
 <script>
+
+// (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423   
+// (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18   
+Date.prototype.Format = function(fmt)   
+{ //author: meizz   
+  var o = {   
+    "M+" : this.getMonth()+1,                 //月份   
+    "d+" : this.getDate(),                    //日   
+    "h+" : this.getHours(),                   //小时   
+    "m+" : this.getMinutes(),                 //分   
+    "s+" : this.getSeconds(),                 //秒   
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+    "S"  : this.getMilliseconds()             //毫秒   
+  };   
+  if(/(y+)/.test(fmt))   
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+  for(var k in o)   
+    if(new RegExp("("+ k +")").test(fmt))   
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+  return fmt;   
+}  
     export default {
         data() {
             return {
@@ -42,7 +83,8 @@
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
-                select_word: ''
+                select_word: '',
+                 activeName: '1'
             }
         },
         created(){
@@ -50,6 +92,9 @@
             //  console.log(this.works);
         },
         methods: {
+            upload(w_id){
+                this.activeName = w_id;
+            },
             getData(){
                 let token = localStorage.getItem('token');
                 this.$ajax.get('http://localhost/work-system/api/index.php?_action=postWork&action_type=getWorks&token='+token,{
@@ -61,6 +106,40 @@
                     console.log('ppp');
                 })
             },
+             open3() {
+                const h = this.$createElement;
+        this.$msgbox({
+          title: '消息',
+          message: h('p', null, [
+            h('span', null, '内容可以是 '),
+            h('i', { style: 'color: teal' }, 'VNode'),
+            h('input',{type:'file'},'')
+          ]),
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '执行中...';
+              setTimeout(() => {
+                done();
+                setTimeout(() => {
+                  instance.confirmButtonLoading = false;
+                }, 300);
+              }, 3000);
+            } else {
+              done();
+            }
+          }
+        }).then(action => {
+          this.$message({
+            type: 'info',
+            message: 'action: ' + action
+          });
+        });
+
+      }
            
         }
     }
