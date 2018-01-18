@@ -1,5 +1,5 @@
 <?php
-// require_once './include/info.function.php';
+require_once './include/remind.function.php';
 $action_type = $_GET['action_type'];
 if(preg_match('/[^a-zA-Z]+/',$action_type)){
     Result::error('wrong action_type');
@@ -68,6 +68,7 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
          * 通知所在分组的人
          * 
          */
+        remiandAllbyGroup($target_group);
     }
     if($re)
     {
