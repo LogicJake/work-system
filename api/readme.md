@@ -31,3 +31,55 @@
 ```
 
 ***
+
+## 发送验证码
+| 名称 | 选项 |
+|:---:|:---:|
+| 接口地址 | /index.php?_action=verfyMailbox|
+| 支持格式 | JSON,JSONP
+| 请求方法 | GET
+| 请求示例 | http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=sendCode&token=7b04b993df34c7a895e2b5787aa4840a&mail=83541****@qq.com
+
+### 返回
+#### 成功
+```
+{
+  "code": 0,
+  "data": "send success"
+}
+```
+#### 失败
+```
+{
+  "code": 1,
+  "data": "send failed"
+}
+```
+***
+
+
+## 验证验证码
+| 名称 | 选项 |
+|:---:|:---:|
+| 接口地址 | /index.php?_action=verfyMailbox|
+| 支持格式 | JSON,JSONP
+| 请求方法 | GET
+| 请求示例 | http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=verifyCode&token=7b04b993df34c7a895e2b5787aa4840a&code=m3a8
+
+### 返回
+#### 成功
+```
+{
+  "code": 0,
+  "data": "success"
+}
+```
+#### 失败
+```
+{
+  "code": 0,
+  "data": "fail"
+}
+```
+
+***
