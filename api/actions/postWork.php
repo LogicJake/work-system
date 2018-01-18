@@ -25,6 +25,7 @@ function getWorks()
 {
     global $db;
     $re = $db->select('work',[
+        'id',
         'work_name',
         'target_group',
         'add_time',
