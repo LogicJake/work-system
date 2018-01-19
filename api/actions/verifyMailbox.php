@@ -35,7 +35,7 @@ function SendCode(){
         	]
         );
 
-	$res = sendMail($mail,'邮箱验证','您的此次验证码为：'.$code,true);
+	$res = sendMail($mail,'邮箱验证',"您的此次验证码为：{$code},如果不是本人操作请忽略。",true);
 	if ($res == 1)
 		Result::success('send success');
 	else
