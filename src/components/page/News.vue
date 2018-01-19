@@ -108,8 +108,7 @@ Date.prototype.Format = function(fmt)
         methods: {
              imageuploaded(res) {
                 console.log(res);
-                console.log('ooouuu');
-                
+                this.getData();
             },
             handleError(){
                 this.$notify.error({

@@ -6,7 +6,7 @@ to do list:
 4. 下载打包
 5. 数据库 user work(ext(string),add_time,start_time,end_time,target_group)
 6. 后缀名 接口 存数据库
-
+7. 管理员的权限 还有作业打包下载 定时通知
 # manage-system #
 基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案。[线上地址](http://blog.gdfengshuo.com/example/work/)
 

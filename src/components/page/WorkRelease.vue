@@ -127,7 +127,7 @@
                                 this.$message.success('作业发布成功');
                             }else{
                                  //self.$router.push('/readme');
-                                this.$message.error('似乎密码出现了错误~');
+                                this.$message.error('发布作业失败~');
                             }
                         })
                         

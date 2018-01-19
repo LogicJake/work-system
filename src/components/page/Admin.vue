@@ -6,7 +6,7 @@
                 <el-breadcrumb-item>基础表格</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <div class="handle-box">
+        <!-- <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
             <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
                 <el-option key="1" label="广东省" value="广东省"></el-option>
@@ -14,14 +14,14 @@
             </el-select>
             <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div>
+        </div> -->
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="date" label="日期" sortable width="150">
+            <el-table-column prop="add_time" label="日期" sortable width="150">
             </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
+            <el-table-column prop="has_upload" label="姓名" width="120">
             </el-table-column>
-            <el-table-column prop="address" label="地址" :formatter="formatter">
+            <el-table-column prop="id" label="地址">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
@@ -46,7 +46,7 @@
     export default {
         data() {
             return {
-                url: './static/vuetable.json',
+                url: 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&work_id=6',
                 tableData: [],
                 cur_page: 1,
                 multipleSelection: [],
@@ -63,21 +63,23 @@
             data(){
                 const self = this;
                 return self.tableData.filter(function(d){
-                    let is_del = false;
-                    for (let i = 0; i < self.del_list.length; i++) {
-                        if(d.name === self.del_list[i].name){
-                            is_del = true;
-                            break;
-                        }
-                    }
-                    if(!is_del){
-                        if(d.address.indexOf(self.select_cate) > -1 && 
-                            (d.name.indexOf(self.select_word) > -1 ||
-                            d.address.indexOf(self.select_word) > -1)
-                        ){
-                            return d;
-                        }
-                    }
+                    console.log(d);
+                    return d;
+                    // let is_del = false;
+                    // for (let i = 0; i < self.del_list.length; i++) {
+                    //     if(d.name === self.del_list[i].name){
+                    //         is_del = true;
+                    //         break;
+                    //     }
+                    // }
+                    // if(!is_del){
+                    //     if(d.address.indexOf(self.select_cate) > -1 && 
+                    //         (d.name.indexOf(self.select_word) > -1 ||
+                    //         d.address.indexOf(self.select_word) > -1)
+                    //     ){
+                    //         return d;
+                    //     }
+                    // }
                 })
             }
         },
@@ -89,22 +91,22 @@
             getData(){
                 let self = this;
                 if(process.env.NODE_ENV === 'development'){
-                    self.url = '/ms/table/list';
+                    // self.url = '/ms/table/list';
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
-                    self.tableData = res.data.list;
+                    self.tableData = res.data.data;
                     console.log(self.tableData);
                 })
             },
             search(){
                 this.is_search = true;
             },
-            formatter(row, column) {
-                return row.address;
-            },
-            filterTag(value, row) {
-                return row.tag === value;
-            },
+            // formatter(row, column) {
+            //     return row.address;
+            // },
+            // filterTag(value, row) {
+            //     return row.tag === value;
+            // },
             handleEdit(index, row) {
                 this.$message('编辑第'+(index+1)+'行');
             },

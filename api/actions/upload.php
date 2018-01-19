@@ -1,6 +1,7 @@
 <?
 require_once './include/commonhead.inc.php';
 require_once './include/info.function.php';
+require_once './include/work.function.php';
 // if(!isset($_SESSION['admin'])){
 //     Result::error('no permission~');
 // }
@@ -15,8 +16,7 @@ $file_path="upload/";
 if(is_dir($file_path)!=TRUE){
     mkdir($file_path,0664);
 }
-//定义允许上传的文件扩展名
-$ext_arr = array( "jpg", "jpeg", "png", "bmp");
+
 if(isset($_POST['data']))
 {
     // var_dump($_POST['data']);
@@ -36,7 +36,7 @@ if(is_dir($file_path)!=TRUE){
 
 if (empty($_FILES) === false) {
     //判断检查
-    if($_FILES["file"]["size"] > 2048*2048){//2M
+    if($_FILES["file"]["size"] > 4096*4096){//2M
         $result['status'] = -1;
         Result::success($result);
     }
@@ -45,12 +45,15 @@ if (empty($_FILES) === false) {
         $result['status'] = 2;
         Result::success($result);
     }
+    //定义允许上传的文件扩展名
+    $ext_arr = get_allow_ext($_POST['work_id']);
 
     $temp_arr = explode(".", $_FILES["file"]["name"]);
+
     $file_ext = array_pop($temp_arr);
     $file_ext = trim($file_ext);
     $file_ext = strtolower($file_ext);
-
+    $file_ext = '.'.$file_ext;
     if (in_array($file_ext, $ext_arr) === false) {
         $result['status'] = 3;
         Result::success($result);

@@ -26,6 +26,10 @@ export default new Router({
                     component: resolve => require(['../components/page/News.vue'], resolve)
                 },
                 {
+                    path: '/admin',
+                    component: resolve => require(['../components/page/Admin.vue'], resolve)
+                },
+                {
                     path: '/basetable',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve)
                 },

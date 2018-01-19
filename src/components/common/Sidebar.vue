@@ -63,6 +63,11 @@
                     },
                     {
                         icon: 'el-icon-setting',
+                        index: 'admin',
+                        title: '管理员'
+                    },
+                    {
+                        icon: 'el-icon-setting',
                         index: 'personalinfo',
                         title: '个人信息'
                     },

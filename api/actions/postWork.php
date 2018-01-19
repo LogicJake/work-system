@@ -87,6 +87,7 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
          * 
          */
         remiandAllbyGroup($target_group);
+        // var_dump('inform');
     }
     if($re)
     {
