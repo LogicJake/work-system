@@ -19,17 +19,17 @@ if(is_dir($file_path)!=TRUE){
 $ext_arr = array( "jpg", "jpeg", "png", "bmp");
 if(isset($_POST['data']))
 {
-    var_dump($_POST['data']);
+    // var_dump($_POST['data']);
 }
 
 
 
 if(isset($_POST['work_id']))
 {
-    var_dump($_POST['work_id']);
+    // var_dump($_POST['work_id']);
 }
-$user = get_person_info();
-$file_path.=$_POST['work_id'];
+$user = get_person_info($GLOBALS['uid']);
+$file_path= $file_path . $_POST['work_id'] . '/';
 if(is_dir($file_path)!=TRUE){
     mkdir($file_path,0664);
 }
@@ -56,10 +56,25 @@ if (empty($_FILES) === false) {
         Result::success($result);
     }
 
-    $imageSalt = 'imageIsThere';
-    $imageName = md5($imageSalt . time() . mt_rand(0, 1e10));
-    $new_image_url = $imageName . ".jpg";
-    move_uploaded_file($_FILES["file"]["tmp_name"],$file_path . $new_image_url);
+
+// $finfo = finfo_open(FILEINFO_MIME_TYPE);  
+// $extension = finfo_file($finfo, $_FILES["file"]["tmp_name"]) ;  
+// echo $extension;  
+// $extension =  explode("/",$extension);
+// $extension = $extension[0];
+// $extension=substr(strrchr($_FILES["file"]["tmp_name"], '.'), 1);  
+// finfo_close($finfo); 
+    $info = pathinfo($_FILES["file"]["name"]);  
+    $extension=$info['extension']; 
+    // echo $extension;
+// var_dump($_FILES);
+
+    // $imageSalt = 'imageIsThere';
+    // $imageName = md5($imageSalt . time() . mt_rand(0, 1e10));
+    // $new_image_url = $imageName . ".jpg";
+    $new_image_url = $user['stu_num'] .$user['stu_name'] . '.'. $extension;
+    $name = iconv('utf-8','gb2312',$file_path . $new_image_url);
+    move_uploaded_file($_FILES["file"]["tmp_name"],$name);
 
     $db->insert('work_upload',[
             'upload_by_user' => $GLOBALS['uid'],
