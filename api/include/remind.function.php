@@ -2,7 +2,7 @@
 require_once 'Medoo.php';
 require_once 'config.php';
 require_once 'mail.function.php';
-function remiandAllbyGroup($groupId){
+function remiandAllbyGroup($groupId,$message){
 	$groups = explode("-",$groupId);		//分割获取多个group
 	$emails = array();
 	foreach ($groups as $group){ 
@@ -18,6 +18,6 @@ function remiandAllbyGroup($groupId){
         	array_push($emails,$email);
         }
     } 
-    $res = sendMail($emails,'作业发布','您有新的作业需要提交，请尽快登陆系统提交',false);
+    $res = sendMail($emails,'作业发布',$message,false);
     return $res;
 }

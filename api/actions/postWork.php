@@ -86,8 +86,30 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
          * 通知所在分组的人
          * 
          */
-        remiandAllbyGroup($target_group);
-        // var_dump('inform');
+        date_default_timezone_set('Etc/GMT-8');
+        $end_date = date("Y-m-d H:i:s",$end_time);
+        $message = "
+<b>您好！</b><br>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;您有新的作业需要提交，作业内容如下！</b><br>
+<table border=\"1\">
+  <tr>
+    <th width=\"150dp\">作业名称</th>
+    <td width=\"100dp\">{$work_name}</td>
+  </tr>
+  <tr>
+    <th>允许上传作业类型</th>
+    <td>{$allow_ext}</td>
+  </tr>
+  <tr>
+    <th>提交须知</th>
+    <td>{$attention_content}</td>
+  </tr>
+  <tr>
+    <th>作业提交截至日期</th>
+    <td>{$end_date}</td>
+  </tr>
+</table>";
+        remiandAllbyGroup($target_group,$message);
     }
     if($re)
     {
