@@ -11,7 +11,12 @@
                 <el-card  v-for="work in works" :key="work" class="box-card">
                     <div slot="header" class="clearfix">
                         <span>{{ work.work_name}}</span>
-                        <!-- <el-button style="float: right; padding: 3px 0" type="text"  @click="upload(work.id)">提交</el-button> -->
+                        <div v-if="work.has_upload==true">
+                            <el-button style="float: right; padding: 3px 0" type="text">已提交</el-button>
+                        </div>
+                        <div v-if="work.has_upload==false">
+                            <el-button style="float: right; padding: 3px 0" type="text">未提交</el-button>
+                        </div>
                     </div>
                     <div  class="text item">
                         开始时间: {{ (new Date(work.start_time*1000)).Format("yyyy-M-d h:m:s.S") }}

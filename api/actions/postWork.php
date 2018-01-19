@@ -1,5 +1,6 @@
 <?php
 require_once './include/remind.function.php';
+require_once './include/info.function.php';
 $action_type = $_GET['action_type'];
 if(preg_match('/[^a-zA-Z]+/',$action_type)){
     Result::error('wrong action_type');
@@ -37,6 +38,15 @@ function getWorks()
         "ORDER" => ["add_time" => "DESC"]
     ]
     );
+    $user = get_person_info($GLOBALS['uid']);
+    foreach( $re as $key=>$value ) 
+    {
+        $has_upload = $db->has('work_upload',[
+            'upload_by_user' => $user['id'],
+            'work_id' => $value['id']
+        ]);
+        $re[$key]['has_upload'] = $has_upload;
+    }
     if($re)
     {
         $return['status'] = 1;
