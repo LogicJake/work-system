@@ -15,6 +15,11 @@ switch($action_type){
     $end_time = Request::$body['end_time'];
     $inform_all = Request::$body['inform_all'];
     $allow_ext = Request::$body['allow_ext'];
+    $allow_ext = explode("-", $allow_ext);
+    foreach ($allow_ext as $allow_key => $allow_value) {
+        $allow_ext[$allow_key] = '.'.$allow_ext[$allow_key];
+    }
+    $allow_ext = implode(',',$allow_ext);
     $attention_content = Request::$body['attention_content'];
         releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content);
         break;
@@ -45,6 +50,8 @@ function getWorks()
             'upload_by_user' => $user['id'],
             'work_id' => $value['id']
         ]);
+
+        // $re[$key]['allow_ext'] = $allow_ext;
         $re[$key]['has_upload'] = $has_upload;
     }
     if($re)

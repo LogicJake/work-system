@@ -39,9 +39,10 @@
                             <el-upload
                                 class="upload-demo"
                                 drag
+                                :accept="work.allow_ext"
                                 :data='{work_id:work.id}'
                                 :action= 'uploadUrl'
-                                on-success="imageuploaded"
+                                :on-success= 'imageuploaded'
                                 multiple>
                                 <i class="el-icon-upload"></i>
                                 <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
@@ -93,7 +94,7 @@ Date.prototype.Format = function(fmt)
                 select_word: '',
                 activeName: '1',
                 token:'',
-                uploadUrl:''
+                uploadUrl:'',
             }
         },
         created(){
