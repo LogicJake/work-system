@@ -21,3 +21,20 @@ function remiandAllbyGroup($groupId,$message){
     $res = sendMail($emails,'作业发布',$message,false);
     return $res;
 }
+function remiandOne($user_id,$message){
+	$emails = array();
+
+		global $db;
+        $res = $db->select('user',[
+        	'email'
+        ],[
+        	'id' => $user_id,
+        	'email[!]' => null
+        ]);
+        foreach ($res as $r) {
+        	$email = $r['email'];
+        	array_push($emails,$email);
+        }
+    $res = sendMail($emails,'作业发布',$message,false);
+    return $res;
+}

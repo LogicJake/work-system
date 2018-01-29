@@ -31,19 +31,19 @@ function get_upload_by_group($target_group,$work_id)
 {
     global $db;
 
-    $re = $db->select('user',['id','stu_num','stu_name'],[
+    $re = $db->select('user',['id(user_id)','stu_num','stu_name'],[
         'class_num' => $target_group
     ]);
     foreach ($re as $key => $value) {
         $has_upload =  $db->has('work_upload',[
             'work_id' => $work_id,
-            'upload_by_user' => $value['id']
+            'upload_by_user' => $value['user_id']
         ]);
         if($has_upload)
         {
              $upload =  $db->get('work_upload',['add_time'],[
                 'work_id' => $work_id,
-                'upload_by_user' => $value['id']
+                'upload_by_user' => $value['user_id']
             ]);
             $re[$key]['has_upload'] = 1;
             $re[$key]['add_time'] = $upload['add_time'];

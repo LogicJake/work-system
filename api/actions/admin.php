@@ -1,5 +1,6 @@
 <?php
 require_once './include/admin.function.php';
+require_once './include/work.function.php';
     if(isset($_GET['action_type']))
     {
         $action_type = $_GET['action_type'];
@@ -21,6 +22,12 @@ require_once './include/admin.function.php';
             break;
         case 'get_work_ids':
             $result = get_work_ids($GLOBALS['uid']);
+            Result::success($result);
+            break;
+        case 'remind_one':
+            $work_id = $_GET['work_id'];
+            $user_id = $_GET['user_id'];
+            $result = remindOneuser($work_id,$user_id);
             Result::success($result);
             break;
     }

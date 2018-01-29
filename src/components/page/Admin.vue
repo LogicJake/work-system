@@ -17,7 +17,7 @@
         </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="id" label="id">
+            <el-table-column prop="user_id" label="user_id">
             </el-table-column>
             <el-table-column prop="stu_num" label="学号" sortable width="150">
             </el-table-column>
@@ -32,7 +32,7 @@
             <el-table-column label="操作" width="180">
                 <template scope="scope">
                     <el-button size="small"
-                            @click="remind(scope.$index, scope.row)">提醒</el-button>
+                            @click="remind(scope.$index,scope.row)">提醒</el-button>
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
@@ -67,7 +67,8 @@
                 work_id:'6',
                 target_group:'1615403',
                 work_ids:[],
-                byworkid:''
+                byworkid:'',
+                remindoneurl:''
             }
         },
         created(){
@@ -76,6 +77,7 @@
             this.workidurl = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
             this.byworkid = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
 //            this.getData();
+            this.remindoneurl = 'http://localhost/work-system/api/index.php?_action=admin&token='+this.token;
             this.getWorkids();
         },
         computed: {
@@ -112,12 +114,23 @@
             }
         },
         methods: {
-            remind(){
-
+            remind(user_id,tablerowdata){
+                let self = this;
+                console.log(tablerowdata['user_id']);
+                var user_id = tablerowdata['user_id'];
+                var url = this.remindoneurl+'&action_type=remind_one&work_id='+this.work_id+'&user_id='+user_id;
+                console.log(url);
+                self.$axios.post(url, {page:self.cur_page}).then((res) => {
+                    // self.tableData = res.data.data;
+                    console.log(res);
+                   // console.log(self.tableData);
+                });
+                console.log(user_id);
             },
             selectionchange(val){
                 console.log('ppppp  change');
                 console.log(val);
+                this.work_id = val;
                 this.getDataByWorkid(val);
                 
             },
