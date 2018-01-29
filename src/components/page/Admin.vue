@@ -6,25 +6,33 @@
                 <el-breadcrumb-item>基础表格</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
-        <!-- <div class="handle-box">
+        <div class="handle-box">
             <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
-            <el-select v-model="select_cate" placeholder="筛选省份" class="handle-select mr10">
-                <el-option key="1" label="广东省" value="广东省"></el-option>
-                <el-option key="2" label="湖南省" value="湖南省"></el-option>
+            <el-select  v-model="select_cate" placeholder="作业id" @change="selectionchange" class="handle-select mr10">
+                <el-option v-for="work in work_ids" :key="work.id" :label="work.work_name" :value="work.id"></el-option>
+                <!-- <el-option key="2" label="湖南省" value="湖南省"></el-option> -->
             </el-select>
             <el-input v-model="select_word" placeholder="筛选关键词" class="handle-input mr10"></el-input>
             <el-button type="primary" icon="search" @click="search">搜索</el-button>
-        </div> -->
+        </div>
         <el-table :data="data" border style="width: 100%" ref="multipleTable" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55"></el-table-column>
-            <el-table-column prop="add_time" label="日期" sortable width="150">
+            <el-table-column prop="id" label="id">
             </el-table-column>
-            <el-table-column prop="has_upload" label="姓名" width="120">
+            <el-table-column prop="stu_num" label="学号" sortable width="150">
             </el-table-column>
-            <el-table-column prop="id" label="地址">
+            <el-table-column prop="stu_name" label="姓名" sortable width="150">
+            </el-table-column>
+            <el-table-column prop="add_time" label="提交时间" sortable width="150">
+            </el-table-column>
+            <!-- <el-table-column prop="has_uplaod" label="是否已提交" sortable width="150">
+            </el-table-column> -->
+            <el-table-column prop="提醒提交" label="提醒提交" width="120">
             </el-table-column>
             <el-table-column label="操作" width="180">
                 <template scope="scope">
+                    <el-button size="small"
+                            @click="remind(scope.$index, scope.row)">提醒</el-button>
                     <el-button size="small"
                             @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                     <el-button size="small" type="danger"
@@ -46,25 +54,36 @@
     export default {
         data() {
             return {
-                url: 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&work_id=6',
+                url: '',
+                workidurl: '',
                 tableData: [],
+                token:'',
                 cur_page: 1,
                 multipleSelection: [],
                 select_cate: '',
                 select_word: '',
                 del_list: [],
-                is_search: false
+                is_search: false,
+                work_id:'6',
+                target_group:'1615403',
+                work_ids:[],
+                byworkid:''
             }
         },
         created(){
-            this.getData();
+            this.token = localStorage.getItem('token');
+            this.url = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.workidurl = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
+            this.byworkid = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+//            this.getData();
+            this.getWorkids();
         },
         computed: {
             data(){
                 const self = this;
                 return self.tableData.filter(function(d){
                     console.log(d);
-                    return d;
+                    
                     // let is_del = false;
                     // for (let i = 0; i < self.del_list.length; i++) {
                     //     if(d.name === self.del_list[i].name){
@@ -80,10 +99,42 @@
                     //         return d;
                     //     }
                     // }
+                    if(d.has_upload==1)
+                    {
+                        d.add_time =  (new Date(d.add_time*1000)).Format("yyyy-M-d h:m:s.S");
+                    }
+                    else
+                    {
+                        d.add_time = '未提交';
+                    }
+                    return d;
                 })
             }
         },
         methods: {
+            remind(){
+
+            },
+            selectionchange(val){
+                console.log('ppppp  change');
+                console.log(val);
+                this.getDataByWorkid(val);
+                
+            },
+            getDataByWorkid(work_id){
+                let self = this;
+                if(process.env.NODE_ENV === 'development'){
+                    // self.url = '/ms/table/list';
+                };
+                var byworkidurl = this.byworkid + '&work_id=' + work_id;
+                console.log(work_id);
+                console.log(byworkidurl);
+                self.$axios.post(byworkidurl, {page:self.cur_page}).then((res) => {
+                    self.tableData = res.data.data;
+                    console.log(res);
+                    console.log(self.tableData);
+                })
+            },
             handleCurrentChange(val){
                 this.cur_page = val;
                 this.getData();
@@ -95,7 +146,18 @@
                 };
                 self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
                     self.tableData = res.data.data;
+                    console.log(res);
                     console.log(self.tableData);
+                })
+            },
+            getWorkids() {
+                 let self = this;
+                if(process.env.NODE_ENV === 'development'){
+                    // self.url = '/ms/table/list';
+                };
+                self.$axios.post(self.workidurl, {page:self.cur_page}).then((res) => {
+                    self.work_ids = res.data.data;
+                    console.log(self.work_ids);
                 })
             },
             search(){
@@ -126,6 +188,7 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+                console.log('handle selection change');
             }
         }
     }

@@ -38,7 +38,7 @@ function getWorks()
         'start_time',
         'end_time',
         'allow_ext',
-        'attention_content'
+        'attention_content',
     ],[
         "ORDER" => ["add_time" => "DESC"]
     ]
@@ -78,7 +78,8 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
         'end_time' => $end_time,
         // 'inform_all' => $inform_all,
         'allow_ext' => $allow_ext,
-        'attention_content' => $attention_content
+        'attention_content' => $attention_content,
+        'release_by_user' => $GLOBALS['uid']
     ]);
     if($inform_all)
     {
