@@ -7,7 +7,7 @@
             </el-breadcrumb>
         </div>
         <div class="handle-box">
-            <el-button type="primary" icon="delete" class="handle-del mr10" @click="delAll">批量删除</el-button>
+            <el-button type="primary" icon="el-icon-download" class="handle-del mr10" @click="downloadAll">批量下载(未上传作业自动提醒)</el-button>
             <el-select  v-model="select_cate" placeholder="作业id" @change="selectionchange" class="handle-select mr10">
                 <el-option v-for="work in work_ids" :key="work.id" :label="work.work_name" :value="work.id"></el-option>
                 <!-- <el-option key="2" label="湖南省" value="湖南省"></el-option> -->
@@ -51,6 +51,24 @@
 </template>
 
 <script>
+import axios from 'axios'
+import JSZip from 'jszip'
+import FileSaver from 'file-saver'
+
+const getFile = url => {
+    return new Promise((resolve, reject) => {
+        axios({
+            method:'get',
+            url,
+            responseType: 'arraybuffer'
+        }).then(data => {
+            resolve(data.data)
+        }).catch(error => {
+            reject(error.toString())
+        })
+    })
+}
+
     export default {
         data() {
             return {
@@ -65,6 +83,7 @@
                 del_list: [],
                 is_search: false,
                 work_id:'6',
+                work_name:'',
                 target_group:'1615403',
                 work_ids:[],
                 byworkid:'',
@@ -73,11 +92,11 @@
         },
         created(){
             this.token = localStorage.getItem('token');
-            this.url = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
-            this.workidurl = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
-            this.byworkid = 'http://localhost/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.url = '/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.workidurl = '/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
+            this.byworkid = '/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
 //            this.getData();
-            this.remindoneurl = 'http://localhost/work-system/api/index.php?_action=admin&token='+this.token;
+            this.remindoneurl = '/api/index.php?_action=admin&token='+this.token;
             this.getWorkids();
         },
         computed: {
@@ -131,6 +150,11 @@
                 console.log('ppppp  change');
                 console.log(val);
                 this.work_id = val;
+                var work = this.work_ids.find(function (obj) {
+                            return obj.id == val;
+                        });
+                this.work_name = work['work_name'];
+                console.log(this.work_name);
                 this.getDataByWorkid(val);
                 
             },
@@ -201,7 +225,43 @@
             },
             handleSelectionChange(val) {
                 this.multipleSelection = val;
+                console.log(val);
                 console.log('handle selection change');
+            },
+            downloadAll(){
+                var val = this.multipleSelection;
+                var to_download = [];
+                val.forEach(to_d => {
+                    if(to_d['has_upload']==1)
+                    {
+                        var new_to_d = '/api/upload/'+this.work_id+'/'+to_d['file_name'];
+                        to_download.push(new_to_d);
+                    }
+                    else
+                    {
+                        this.remind(to_d['user_id'],to_d);
+                    }
+                    
+                });
+                const data = to_download // 需要下载打包的路径, 可以是本地相对路径, 也可以是跨域的全路径
+                const zip = new JSZip()
+                const cache = {}
+                const promises = []
+                data.forEach(item => {
+                    const promise = getFile(item).then(data => { // 下载文件, 并存成ArrayBuffer对象
+                        const arr_name = item.split("/")
+                        const file_name = arr_name[arr_name.length - 1] // 获取文件名
+                        zip.file(file_name, data, { binary: true }) // 逐个添加文件
+                        cache[file_name] = data
+                    })
+                    promises.push(promise)
+                })
+
+                Promise.all(promises).then(() => {
+                    zip.generateAsync({type:"blob"}).then(content => { // 生成二进制流
+                        FileSaver.saveAs(content,  this.work_name +".zip") // 利用file-saver保存文件
+                    })
+                })
             }
         }
     }

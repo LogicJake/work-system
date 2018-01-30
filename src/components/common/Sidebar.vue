@@ -37,6 +37,7 @@
     export default {
         data() {
             return {
+                usrl:'',
                 has_email: localStorage.getItem('has_email'),
                 email_items:[
                     {
@@ -63,74 +64,85 @@
                     },
                     {
                         icon: 'el-icon-setting',
-                        index: 'admin',
-                        title: '管理员'
-                    },
-                    {
-                        icon: 'el-icon-setting',
                         index: 'personalinfo',
                         title: '个人信息'
                     },
-                    {
-                        icon: 'el-icon-menu',
-                        index: '2',
-                        title: '表格',
-                        subs: [
-                            {
-                                index: 'basetable',
-                                title: '基础表格'
-                            },
-                            {
-                                index: 'vuetable',
-                                title: 'Vue表格组件'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-date',
-                        index: '3',
-                        title: '表单',
-                        subs: [
-                            {
-                                index: 'baseform',
-                                title: '基本表单'
-                            },
-                            {
-                                index: 'vueeditor',
-                                title: '编辑器'
-                            },
-                            {
-                                index: 'markdown',
-                                title: 'markdown'
-                            },
-                            {
-                                index: 'upload',
-                                title: '文件上传'
-                            }
-                        ]
-                    },
-                    {
-                        icon: 'el-icon-star-on',
-                        index: 'basecharts',
-                        title: '图表'
-                    },
-                    {
-                        icon: 'el-icon-upload2',
-                        index: 'drag',
-                        title: '拖拽'
-                    },
-                    {
+                    // {
+                    //     icon: 'el-icon-menu',
+                    //     index: '2',
+                    //     title: '表格',
+                    //     subs: [
+                    //         {
+                    //             index: 'basetable',
+                    //             title: '基础表格'
+                    //         },
+                    //         {
+                    //             index: 'vuetable',
+                    //             title: 'Vue表格组件'
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     icon: 'el-icon-date',
+                    //     index: '3',
+                    //     title: '表单',
+                    //     subs: [
+                    //         {
+                    //             index: 'baseform',
+                    //             title: '基本表单'
+                    //         },
+                    //         {
+                    //             index: 'vueeditor',
+                    //             title: '编辑器'
+                    //         },
+                    //         {
+                    //             index: 'markdown',
+                    //             title: 'markdown'
+                    //         },
+                    //         {
+                    //             index: 'upload',
+                    //             title: '文件上传'
+                    //         }
+                    //     ]
+                    // },
+                    // {
+                    //     icon: 'el-icon-star-on',
+                    //     index: 'basecharts',
+                    //     title: '图表'
+                    // },
+                    // {
+                    //     icon: 'el-icon-upload2',
+                    //     index: 'drag',
+                    //     title: '拖拽'
+                    // }
+
+                ]
+            }
+        },
+        
+        created(){
+            this.token = localStorage.getItem('token');
+            this.url = '/api/index.php?_action=admin&action_type=check_is_admin&token='+this.token;
+                let self = this;
+                    self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
+                    var work_release = {
                         icon: 'el-icon-upload2',
                         index: 'work-release',
                         title: '作业发布'
-                    },
+                    };
+                    var admin = {
+                        icon: 'el-icon-setting',
+                        index: 'admin',
+                        title: '管理员'
+                    };
+                    if(res.data.data)
                     {
-                        icon: 'el-icon-upload2',
-                        index: 'download',
-                        title: '测试下载'
+                        this.items.push(work_release);
+                        this.items.push(admin);
+                        console.log('ok');
                     }
-                ]
-            }
+                    console.log(this.items);
+                })
         },
         computed:{
             onRoutes(){

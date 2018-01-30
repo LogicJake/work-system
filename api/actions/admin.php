@@ -18,16 +18,19 @@ require_once './include/work.function.php';
             $target_group = $_GET['target_group'];
             // $result = get_upload_by_group($target_group,$work_id);
             $result = get_upload_by_work_id($work_id);
-            Result::success($result);
             break;
         case 'get_work_ids':
             $result = get_work_ids($GLOBALS['uid']);
-            Result::success($result);
             break;
         case 'remind_one':
             $work_id = $_GET['work_id'];
             $user_id = $_GET['user_id'];
             $result = remindOneuser($work_id,$user_id);
-            Result::success($result);
+            break;
+        case 'check_is_admin':
+            $user_id = $GLOBALS['uid'];
+            $result = check_is_admin($user_id);
             break;
     }
+
+    Result::success($result);

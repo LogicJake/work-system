@@ -41,12 +41,13 @@ function get_upload_by_group($target_group,$work_id)
         ]);
         if($has_upload)
         {
-             $upload =  $db->get('work_upload',['add_time'],[
+             $upload =  $db->get('work_upload',['add_time','file_name'],[
                 'work_id' => $work_id,
                 'upload_by_user' => $value['user_id']
             ]);
             $re[$key]['has_upload'] = 1;
             $re[$key]['add_time'] = $upload['add_time'];
+            $re[$key]['file_name'] = $upload['file_name'];
         }
         else 
         {
