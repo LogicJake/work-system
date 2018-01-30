@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { resolve } from 'path';
 
 Vue.use(Router);
 
@@ -9,6 +10,10 @@ export default new Router({
             path: '/',
             redirect: '/login'
         },
+        // {
+        //     path: '/api',
+        //     component: resolve => require(['../api/'], resolve)
+        // },
         {
             path: '/readme',
             component: resolve => require(['../components/common/Home.vue'], resolve),
@@ -68,6 +73,10 @@ export default new Router({
                 {
                     path: '/work-release',
                     component: resolve => require(['../components/page/WorkRelease.vue'], resolve)    // 上传作业组件
+                },
+                {
+                    path: '/download',
+                    component: resolve => require(['../components/page/download.vue'], resolve)
                 }
             ]
         },

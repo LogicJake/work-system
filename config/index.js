@@ -29,10 +29,10 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api': {
-                target: 'http://g.gg',
+                target: 'http://localhost/work-system',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/api': 'http://localhost/work-system/api'
+                    '/api': '/api'
                 }
             },
             '/ms':{

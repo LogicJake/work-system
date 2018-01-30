@@ -123,6 +123,11 @@
                         icon: 'el-icon-upload2',
                         index: 'work-release',
                         title: '作业发布'
+                    },
+                    {
+                        icon: 'el-icon-upload2',
+                        index: 'download',
+                        title: '测试下载'
                     }
                 ]
             }
