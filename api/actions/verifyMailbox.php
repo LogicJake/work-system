@@ -30,7 +30,8 @@ function SendCode(){
 	$re =$db->insert("verify", [
             "userid" => $uid,
             'verifyCode' => $code,
-            'add_time' => time(),
+			'add_time' => time(),
+			'email' => $mail,
             'expire' => time() + $expireTime
         	]
         );
@@ -53,8 +54,23 @@ function verifyCode(){
 		 	'expire[>]' => time()		//没有过期 
 		 ]
 		]);
-	if($res)
+	if($res){
+		$res = $db->get("verify",[
+			'email'
+			],[
+				'userid' => $uid,
+				'verifyCode' => $code	
+			]);
+		$db->delete("verify",[
+			'userid' => $uid,
+			]);
+		$db->update("user",[
+			'email' => $res['email']
+		],[
+			'id' => $uid,
+		]);
 		Result::success('success');
+	}
 	else
 		Result::error('fail');
 }
