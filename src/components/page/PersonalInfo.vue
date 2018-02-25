@@ -19,6 +19,13 @@
                     <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
                     <el-button>取消</el-button>
                 </el-form-item>
+                <el-form-item  prop="email_verifycode" label="验证码">
+                    <el-input v-model="work_form.email_verifycode"></el-input>
+                </el-form-item>
+                 <el-form-item>
+                    <el-button type="primary" @click="onSubmit_code('work_form')">提交</el-button>
+                    <el-button>取消</el-button>
+                </el-form-item>
             </el-form>
         </div>
 
@@ -51,18 +58,18 @@
                 {
                      self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('http://localhost/work-system/api/index.php?_action=getPersonalInfo&action_type=saveEmail&token='+token,{
-                            'email': this.work_form.email
-                        }).then(re => {
+                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=sendCode&token='+token+'&mail='+this.work_form.email  
+                        ).then(re => {
                         //    console.log(re.data);
                             console.log(re);
                             if(re.data.code == 0){
-                                localStorage.setItem('has_email',1);
-                                self.$router.push('/readme');
-                                location.reload();
+                                this.$message.success('验证码已发至邮箱~');
+                                // localStorage.setItem('has_email',1);
+                                // self.$router.push('/readme');
+                                // location.reload();
                             }else{
                              //    self.$router.push('/readme');
-                               this.$message.error('邮箱没保存成功~');
+                               this.$message.error('验证码发送失败~');
                             }
                         })
                         
@@ -73,6 +80,42 @@
                        alert('您的电子邮件格式不正确');
 
                 }
+             
+
+               
+            },
+            onSubmit_code(formName) {
+                const self = this;
+                console.log(this);
+                let token = localStorage.getItem('token');
+                console.log(token);
+                // var filter  = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                // if (filter.test(this.work_form.email_verifycode))
+                // {
+                    //  self.$refs[formName].validate((valid) => {
+                    // if (valid) {
+                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=verifyCode&token='+token+'&code='+this.work_form.email_verifycode
+                        ).then(re => {
+                        //    console.log(re.data);
+                            console.log(re);
+                            if(re.data.code == 0){
+                                localStorage.setItem('has_email',1);
+                                this.$message.success('邮箱修改成功');
+                                // self.$router.push('/readme');
+                                // location.reload();
+                            }else{
+                             //    self.$router.push('/readme');
+                               this.$message.error('邮箱没保存成功~');
+                            }
+                        });
+                        
+                //     }
+                // });
+                // }
+                // else {
+                //        alert('您的电子邮件格式不正确');
+
+                // }
              
 
                

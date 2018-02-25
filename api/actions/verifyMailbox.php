@@ -48,11 +48,9 @@ function verifyCode(){
 	$uid = $GLOBALS['uid'];
 	global $db;
 	$res = $db->has("verify",[
-		 "AND" => [
 		 	'userid' => $uid,
 		 	'verifyCode' => $code,
 		 	'expire[>]' => time()		//没有过期 
-		 ]
 		]);
 	if($res){
 		$res = $db->get("verify",[
