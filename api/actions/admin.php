@@ -17,7 +17,9 @@ require_once './include/work.function.php';
             // var_dump($work_id);
             $target_group = $_GET['target_group'];
             // $result = get_upload_by_group($target_group,$work_id);
-            $result = get_upload_by_work_id($work_id);
+            // $page_num = $_GET['page_num']?$_GET['page_num']:1;
+            $page_num = 1;
+            $result = get_upload_by_work_id($work_id,$page_num);
             break;
         case 'get_work_ids':
             $result = get_work_ids($GLOBALS['uid']);

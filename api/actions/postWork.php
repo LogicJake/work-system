@@ -26,6 +26,48 @@ switch($action_type){
     case 'getWorks':
         getWorks();
         break;
+    case 'getAllStu':
+        $team_name = Request::$body['team_name'];
+        getAllStu($team_name);
+        break;
+}
+function getAllStu($team_name)
+{
+    global $db;
+     $re = $db->select('team',[
+        'user_num'
+    ],[
+        'team_name' => $team_name
+    ],[
+        "ORDER" => ["add_time" => "DESC"]
+    ]
+    );
+    if($re)
+    {
+        Result::success($re);
+    }
+    else {
+        Result::success($re);
+    }
+
+}
+function getAllTeamname()
+{
+    global $db;
+     $re = $db->select('team',[
+        'team_name'
+    ],[
+        "ORDER" => ["add_time" => "DESC"]
+    ]
+    );
+    if($re)
+    {
+        Result::success($re);
+    }
+    else {
+        Result::success($re);
+    }
+
 }
 function getWorks()
 {
@@ -52,6 +94,8 @@ function getWorks()
         ]);
 
         // $re[$key]['allow_ext'] = $allow_ext;
+        $re[$key]['expired']  = $value['end_time']<time()?true:false;
+
         $re[$key]['has_upload'] = $has_upload;
     }
     if($re)

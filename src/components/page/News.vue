@@ -11,11 +11,17 @@
                 <el-card  v-for="work in works" :key="work" class="box-card">
                     <div slot="header" class="clearfix">
                         <span>{{ work.work_name}}</span>
-                        <div v-if="work.has_upload==true">
-                            <el-button style="float: right; padding: 3px 0" type="text">已提交</el-button>
+                       
+                        <div v-if="work.expired==false">
+                             <div v-if="work.has_upload==true">
+                                <el-button style="float: right; padding: 3px 0" type="text">已提交</el-button>
+                            </div>
+                            <div v-if="work.has_upload==false">
+                                <el-button style="float: right; padding: 3px 0" type="text">未提交</el-button>
+                            </div>
                         </div>
-                        <div v-if="work.has_upload==false">
-                            <el-button style="float: right; padding: 3px 0" type="text">未提交</el-button>
+                        <div v-if="work.expired==true">
+                            <el-button class="expire" style="float: right; padding: 3px 0" type="text">已过期</el-button>
                         </div>
                     </div>
                     <div  class="text item">
@@ -30,27 +36,34 @@
                     <div  class="text item">
                         允许文件: {{ work.allow_ext }}
                     </div>
-                   
-                    <el-collapse accordion>
-                        <el-collapse-item>
-                            <template slot="title">
-                            我要交作业<i class="header-icon el-icon-info"></i>
-                            </template>
-                            <el-upload
-                                class="upload-demo"
-                                drag
-                                :accept="work.allow_ext"
-                                :data='{work_id:work.id}'
-                                :action= 'uploadUrl'
-                                :on-success= 'imageuploaded'
-                                multiple>
-                                <i class="el-icon-upload"></i>
-                                <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                                <div class="el-upload__tip" slot="tip">只能上传{{ work.allow_ext }}文件，且不超过2000kb</div>
-                            </el-upload>
-                        </el-collapse-item>
+                    <div v-if="work.expired==true">
+                        <div  class="text item expire">
+                            提交时间已过期
+                        </div>
+                    </div>
+                    <div v-if="work.expired==false">
+                           
+                        <el-collapse accordion>
+                            <el-collapse-item>
+                                <template slot="title">
+                                我要交作业<i class="header-icon el-icon-info"></i>
+                                </template>
+                                <el-upload
+                                    class="upload-demo"
+                                    drag
+                                    :accept="work.allow_ext"
+                                    :data='{work_id:work.id}'
+                                    :action= 'uploadUrl'
+                                    :on-success= 'imageuploaded'
+                                    multiple>
+                                    <i class="el-icon-upload"></i>
+                                    <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                                    <div class="el-upload__tip" slot="tip">只能上传{{ work.allow_ext }}文件，且不超过2000kb</div>
+                                </el-upload>
+                            </el-collapse-item>
+                        </el-collapse>
+                    </div>
 
-</el-collapse>
                     
                 </el-card>
                 
@@ -60,6 +73,11 @@
 
     </div>
 </template>
+<style>
+    .expire{
+        color: red;
+    }
+</style>
 
 <script>
 

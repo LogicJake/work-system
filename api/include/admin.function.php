@@ -8,7 +8,7 @@ function get_all_upload($work_id)
     ]);
     return $re;
 }
-function get_upload_by_work_id($work_id)
+function get_upload_by_work_id($work_id,$page_num)
 {
     global $db;
     $result = array();

@@ -23,6 +23,10 @@
                         <el-checkbox label="1615403" name="target_group"></el-checkbox>
                         <el-checkbox label="1615401" name="target_group"></el-checkbox>
                     </el-checkbox-group>
+                    <!-- Form -->
+                    <el-button type="text" @click="dialogFormVisible = true"> 自定义提交成员 </el-button>
+
+
                 </el-form-item>
                 <el-form-item prop="time" label="日期时间">
                     <el-col :span="11">
@@ -43,13 +47,6 @@
                         <el-checkbox label="rar" name="allow_ext"></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <!-- <el-form-item prop="type" label="单选框">
-                    <el-radio-group v-model="work_form.resource">
-                        <el-radio label="步步高"></el-radio>
-                        <el-radio label="小天才"></el-radio>
-                        <el-radio label="imoo"></el-radio>
-                    </el-radio-group>
-                </el-form-item> -->
                 <el-form-item prop="attention_content" label="提交须知">
                     <el-input type="textarea" v-model="work_form.attention_content"></el-input>
                 </el-form-item>
@@ -59,7 +56,21 @@
                 </el-form-item>
             </el-form>
         </div>
-
+<el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+  <el-form :model="work_form">
+      <el-checkbox-group v-model="work_form.target_stu">
+    <el-checkbox label="复选框 A"></el-checkbox>
+    <el-checkbox label="复选框 B"></el-checkbox>
+    <el-checkbox label="复选框 C"></el-checkbox>
+    <el-checkbox label="禁用" disabled></el-checkbox>
+    <el-checkbox label="选中且禁用" disabled></el-checkbox>
+  </el-checkbox-group>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
     </div>
 </template>
 
@@ -67,6 +78,13 @@
     export default {
         data: function(){
             return {
+                checkList:[],
+
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+
+                formLabelWidth: '120px',
+                all_stu:['161540205'],
                 work_form: {
                     work_name: '',
                     target_group: ['1615402','1615403'],
@@ -74,6 +92,7 @@
                     end_time: '',
                     inform_all: true,
                     allow_ext: ['zip'],
+                    target_stu:[],
                     // resource: '小天才',
                     attention_content: ''
                 },

@@ -121,15 +121,34 @@ function GetInfo($cookie){        //爬取个人信息
 
         if($res['status'] == 1){
             global $db;
-            $db->insert('user',[
-                "stu_num" => $user_name,
-                "passwd" => md5($user_passwd),
-                "stu_name" => $res['name'],
-                "class_num" => $res['classNo'],
-                "current_grade" => $res['grade'] ,
-                "profession_num" => $res['major']
-            ]
-            );
+            if($db->has('user',[
+                 "stu_num" => $user_name
+            ]))
+            {
+                $db->update('user',[
+                    "stu_num" => $user_name,
+                    "passwd" => md5($user_passwd),
+                    "stu_name" => $res['name'],
+                    "class_num" => $res['classNo'],
+                    "current_grade" => $res['grade'] ,
+                    "profession_num" => $res['major']
+                ],[
+                    "stu_num" => $user_name
+                    ]
+                );
+            }
+            else {
+                
+                $db->insert('user',[
+                    "stu_num" => $user_name,
+                    "passwd" => md5($user_passwd),
+                    "stu_name" => $res['name'],
+                    "class_num" => $res['classNo'],
+                    "current_grade" => $res['grade'] ,
+                    "profession_num" => $res['major']
+                ]
+                );
+            }
         }   
     }
     function get_person_info($user_name,$user_passwd)
