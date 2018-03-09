@@ -94,7 +94,7 @@ const getFile = url => {
             this.token = localStorage.getItem('token');
             this.url = '/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
             this.workidurl = '/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
-            this.byworkid = '/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.byworkid = '/api/index.php?_action=admin&action_type=get_upload_by_group&token='+this.token;
 //            this.getData();
             this.remindoneurl = '/api/index.php?_action=admin&token='+this.token;
             this.getWorkids();

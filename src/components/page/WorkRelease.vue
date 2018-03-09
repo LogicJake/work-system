@@ -27,14 +27,26 @@
 
                     <el-button type="text" @click="dialogFormVisible = true ;getAllteamname()"> 自定义提交成员 </el-button>
                     <el-tag
-                    type="success"
-                    :key="tag"
-                    v-for="tag in work_form.target_stu"
-                    closable
-                    :disable-transitions="false"
-                    @close="handleClose(tag)">
+                        type="success"
+                        :key="tag"
+                        v-for="tag in work_form.target_stu"
+                        closable
+                        :disable-transitions="false"
+                        @close="handleClose(tag)"
+                    >
                     {{tag}}
                     </el-tag>
+                    <el-input
+                        class="input-new-tag"
+                        v-if="inputVisible"
+                        v-model="inputValue"
+                        ref="saveTagInput"
+                        size="small"
+                        @keyup.enter.native="handleInputConfirm"
+                        @blur="handleInputConfirm"
+                    >
+                    </el-input>
+                    <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button>
 
                 </el-form-item>
                 <el-dialog title="选择team" :visible.sync="dialogFormVisible">
@@ -94,6 +106,8 @@
         data: function(){
             return {
                 checkList:[],
+                inputVisible: false,
+                inputValue: '',
 
                 dialogTableVisible: false,
                 dialogFormVisible: false,
@@ -137,8 +151,22 @@
             
         },
         methods: {
-            handleClose(tag){
-                
+            showInput() {
+                this.inputVisible = true;
+                this.$nextTick(_ => {
+                this.$refs.saveTagInput.$refs.input.focus();
+                });
+            },
+            handleInputConfirm() {
+                let inputValue = this.inputValue;
+                if (inputValue) {
+                this.work_form.target_stu.push(inputValue);
+                }
+                this.inputVisible = false;
+                this.inputValue = '';
+            },
+            handleClose(tag) {
+                this.work_form.target_stu.splice(this.work_form.target_stu.indexOf(tag), 1);
             },
             getByteam(){
                 const self = this;
@@ -146,7 +174,7 @@
                 let token = localStorage.getItem('token');
                 this.dialogFormVisible = true ;
  
-                    this.$ajax.post('http://localhost/work-system/api/index.php?_action=team&action_type=getbyteam&token='+token+"&teamname="+self.work_form.teamname,{
+                    this.$ajax.post('/api/index.php?_action=team&action_type=getbyteam&token='+token+"&teamname="+self.work_form.teamname,{
                         "teamname":self.work_form.teamname
                     }).then(re => {
                         console.log(re.data);
@@ -165,7 +193,7 @@
                 let token = localStorage.getItem('token');
                 this.dialogFormVisible = true ;
  
-                    this.$ajax.post('http://localhost/work-system/api/index.php?_action=team&action_type=getallteam&token='+token).then(re => {
+                    this.$ajax.post('/api/index.php?_action=team&action_type=getallteam&token='+token).then(re => {
                         console.log(re.data);
                         console.log(re);
                         if(re.data.code == 0){
@@ -190,10 +218,10 @@
                 console.log(myDate.getFullYear());    //获取完整的年份(4位,1970-????)
                 console.log(myDate.getMonth());       //获取当前月份(0-11,0代表1月)
                 console.log(myDate.getDate()); 
-                var target_group_name = ''+ myDate.getFullYear() + myDate.getMonth() + myDate.getDate() + this.work_form.work_name;
+                var target_group_name = ''+ myDate.getFullYear() + '_' + myDate.getMonth() + '_' + myDate.getDate() + '_' + this.work_form.work_name;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('http://localhost/work-system/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
+                        this.$ajax.post('/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
                             'work_name': this.work_form.work_name,
                             'target_group': target_group_name,//this.work_form.target_group.join("-"),
                             'start_time': Date.parse(new Date(this.work_form.start_time))/1000,

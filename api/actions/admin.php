@@ -15,7 +15,7 @@ require_once './include/work.function.php';
         case 'get_upload_by_group':
             $work_id = $_GET['work_id'];
             // var_dump($work_id);
-            $target_group = $_GET['target_group'];
+            // $target_group = $_GET['target_group'];
             // $result = get_upload_by_group($target_group,$work_id);
             // $page_num = $_GET['page_num']?$_GET['page_num']:1;
             $page_num = 1;

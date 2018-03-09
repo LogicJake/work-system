@@ -58,7 +58,7 @@
                 {
                      self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=sendCode&token='+token+'&mail='+this.work_form.email  
+                        this.$ajax.get('/api/index.php?_action=verifyMailbox&action_type=sendCode&token='+token+'&mail='+this.work_form.email  
                         ).then(re => {
                         //    console.log(re.data);
                             console.log(re);
@@ -94,7 +94,7 @@
                 // {
                     //  self.$refs[formName].validate((valid) => {
                     // if (valid) {
-                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=verifyMailbox&action_type=verifyCode&token='+token+'&code='+this.work_form.email_verifycode
+                        this.$ajax.get('/api/index.php?_action=verifyMailbox&action_type=verifyCode&token='+token+'&code='+this.work_form.email_verifycode
                         ).then(re => {
                         //    console.log(re.data);
                             console.log(re);

@@ -16,7 +16,7 @@
             class="upload-demo"
             drag
             :data='{token:"123123123",work_id:1}'
-            action='http://localhost/work-system/api/index.php?_action=upload'
+            action='/api/index.php?_action=upload'
             multiple>
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>

@@ -54,7 +54,7 @@
                 console.log(this);
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.get('http://localhost/work-system/api/index.php?_action=postLogin&action_type=login&user='+this.ruleForm.username+'&passwd='+this.ruleForm.password,{
+                        this.$ajax.get('/api/index.php?_action=postLogin&action_type=login&user='+this.ruleForm.username+'&passwd='+this.ruleForm.password,{
                             // 'user': this.ruleForm.username,
                             // 'passwd': this.ruleForm.password
                         }).then(re => {
