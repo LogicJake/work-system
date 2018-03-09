@@ -5,13 +5,24 @@ require_once 'mail.function.php';
 function remiandAllbyGroup($teamname,$message){
 	$emails = array();
 	global $db;
-	$res = $db->select('team',[
-		'user_num'
-	],[
-		'team_name' => $teamname,
+	$id = $db->get('work','id',[
+		'target_group' => $teamname,
 	]);
-	foreach ($res as $r) {
-		$user_num = $r['user_num'];		//获取user_name
+	$res = $db->select('work_upload',[
+		'upload_by_user'
+	],[
+		'work_id'=>$id 
+	]);
+	$stu_nums = array();
+	foreach($res as $re){
+		$upload_by_user = $re['upload_by_user'];
+		$stu_num = $db->get('user','stu_num',[
+			'id'=>$upload_by_user
+		]);
+		array_push($stu_nums,$stu_num);
+	}
+	foreach ($stu_nums as $r) {
+		$user_num = $r;		//获取user_name
 		$rr = $db->get('user',[
 			'email'
 		],[

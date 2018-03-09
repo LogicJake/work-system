@@ -20,14 +20,14 @@ switch($action_type){
         $allow_ext = explode("-", $allow_ext);
         $target_user_nums = Request::$body['target_user_nums'];
 
-        insertteam($target_group,$target_user_nums);
+        #insertteam($target_group,$target_user_nums);
 
         foreach ($allow_ext as $allow_key => $allow_value) {
             $allow_ext[$allow_key] = '.'.$allow_ext[$allow_key];
         }
         $allow_ext = implode(',',$allow_ext);
         $attention_content = Request::$body['attention_content'];
-        releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content);
+        releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums);
         break;
     case 'getWorks':
         getWorks();
@@ -123,7 +123,7 @@ function getWorks()
 }
 
 
-function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content)
+function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums)
 {
     global $db;
     $re = $db->insert('work',[
@@ -140,11 +140,17 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
     $re = $db->get('work','id',[
         'work_name' => $work_name
     ]);
-    $re = $db->insert('work_upload',[
-        'upload_by_user' => $GLOBALS['uid'],
-        'work_id' => $re,
-        'has_upload' => 0
-    ]);
+    $data = array();
+    foreach($target_user_nums as $target_user_num){
+        $id = $db->get('user','id',[
+            'stu_num' => $target_user_num
+        ]);
+        $tmp['upload_by_user'] = $id;
+        $tmp['work_id'] = $re;
+        $tmp['has_upload'] = 0;
+        array_push($data,$tmp);
+    }
+    $re = $db->insert('work_upload',$data);
 
     if($inform_all)
     {
