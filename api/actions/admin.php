@@ -29,6 +29,10 @@ require_once './include/work.function.php';
             $user_id = $_GET['user_id'];
             $result = remindOneuser($work_id,$user_id);
             break;
+        case 'remind_team':
+            $work_id = $_GET['work_id'];
+            $result = remindGruop($work_id);
+            break;
         case 'check_is_admin':
             $user_id = $GLOBALS['uid'];
             $result = check_is_admin($user_id);
