@@ -1,6 +1,8 @@
 <?php
 require_once './include/remind.function.php';
 require_once './include/info.function.php';
+require_once './include/team.function.php';
+
 $action_type = $_GET['action_type'];
 if(preg_match('/[^a-zA-Z]+/',$action_type)){
     Result::error('wrong action_type');
@@ -16,6 +18,10 @@ switch($action_type){
     $inform_all = Request::$body['inform_all'];
     $allow_ext = Request::$body['allow_ext'];
     $allow_ext = explode("-", $allow_ext);
+    $target_user_nums = Request::$body['target_user_nums'];
+
+    insertteam($target_group,$target_user_nums);
+
     foreach ($allow_ext as $allow_key => $allow_value) {
         $allow_ext[$allow_key] = '.'.$allow_ext[$allow_key];
     }

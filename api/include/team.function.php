@@ -1,20 +1,27 @@
 <?php
-function getbyteamname($teamnae){
+function getbyteamname($teamname){
     global $db;
-    $res = $db->select("team",[
-        "user_num"
+    $res = $db->select("team",
+    [
+        "[<]user" => ["user_num"=>"stu_num"]
     ],[
-        "team_name" => $teamnae
+        "user.stu_num",
+        "user.stu_name",
+        "user.id"
+    ],[
+        "team.team_name" => $teamname
     ]);
     return $res;
 }
-function insertteam($teamname,$user_num){
+function insertteam($teamname,$user_nums){
     global $db;
-    $res = $db->insert("team",[
-        "team_name"=>$teamname,
-        "user_num"=>$user_num,
-        "add_time"=>time()
-    ]);
+    foreach ($user_nums as $user_num) {
+        $res = $db->insert("team",[
+            "team_name"=>$teamname,
+            "user_num"=>$user_num,
+            "add_time"=>time()
+        ]);
+    }
     if($res->rowCount()>0)
         return 1;
     else
