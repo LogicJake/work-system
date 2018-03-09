@@ -12,38 +12,37 @@ function get_upload_by_work_id($work_id,$page_num)
 {
     global $db;
     $result = array();
-    // $target_groups = $db->get('work',['id'],['work_id'=>6]);
-     $target_groups =  $db->get('work',['target_group'],[
+    $target_group =  $db->get('work',['target_group'],[
                 'id' => $work_id
-            ]);
-    // var_dump($target_groups);
-    // var_dump($work_id);
-    $target_groups = explode('-',$target_groups['target_group']);
-    foreach ($target_groups as $key => $target_group) {
-        $re = get_upload_by_group($target_group,$work_id);
-        // array_push($result,$re);
-        $result = array_merge($result,$re);
-    }    
-    // var_dump($result);
+            ])['target_group'];
+    $result = get_upload_by_group($target_group,$work_id);
     return $result;
 }
 function get_upload_by_group($target_group,$work_id)
 {
     global $db;
 
-    $re = $db->select('user',['id(user_id)','stu_num','stu_name'],[
-        'class_num' => $target_group
+    $re = $db->select('team',[
+        'user_num'
+    ],[
+        'team_name' => $target_group
     ]);
     foreach ($re as $key => $value) {
+        //根据学号找到id
+        $id = $db->get("user",[
+            "id"
+        ],[
+            "stu_num" => $value['user_num']
+        ]);
         $has_upload =  $db->has('work_upload',[
             'work_id' => $work_id,
-            'upload_by_user' => $value['user_id']
+            'upload_by_user' => $id['id']
         ]);
         if($has_upload)
         {
              $upload =  $db->get('work_upload',['add_time','file_name'],[
                 'work_id' => $work_id,
-                'upload_by_user' => $value['user_id']
+                'upload_by_user' => $id['id']
             ]);
             $re[$key]['has_upload'] = 1;
             $re[$key]['add_time'] = $upload['add_time'];

@@ -7,7 +7,6 @@ else{
     $action_type = $_GET['action_type'];
     switch($action_type){
         case 'getbyteam':
-            $action_type = $_GET['action_type'];
             if (!isset($_GET['teamname'])) {
                 Result::error('missing _teamname');
             }

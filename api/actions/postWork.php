@@ -99,9 +99,14 @@ function getWorks()
             'work_id' => $value['id']
         ]);
 
+        $should_upload = $db->has('team',[
+            'user_num' =>  $user['user_num'],
+            'team_name' => $value['target_group']
+        ]);
+
         // $re[$key]['allow_ext'] = $allow_ext;
         $re[$key]['expired']  = $value['end_time']<time()?true:false;
-
+        $re[$key]['should_upload']  = $should_upload;
         $re[$key]['has_upload'] = $has_upload;
     }
     if($re)
