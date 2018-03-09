@@ -11,22 +11,22 @@ if(preg_match('/[^a-zA-Z]+/',$action_type)){
 
 switch($action_type){
     case 'releaseNewwork':
-    $work_name = Request::$body['work_name'];
-    $target_group = Request::$body['target_group'];
-    $start_time = Request::$body['start_time'];
-    $end_time = Request::$body['end_time'];
-    $inform_all = Request::$body['inform_all'];
-    $allow_ext = Request::$body['allow_ext'];
-    $allow_ext = explode("-", $allow_ext);
-    $target_user_nums = Request::$body['target_user_nums'];
+        $work_name = Request::$body['work_name'];
+        $target_group = Request::$body['target_group'];
+        $start_time = Request::$body['start_time'];
+        $end_time = Request::$body['end_time'];
+        $inform_all = Request::$body['inform_all'];
+        $allow_ext = Request::$body['allow_ext'];
+        $allow_ext = explode("-", $allow_ext);
+        $target_user_nums = Request::$body['target_user_nums'];
 
-    insertteam($target_group,$target_user_nums);
+        insertteam($target_group,$target_user_nums);
 
-    foreach ($allow_ext as $allow_key => $allow_value) {
-        $allow_ext[$allow_key] = '.'.$allow_ext[$allow_key];
-    }
-    $allow_ext = implode(',',$allow_ext);
-    $attention_content = Request::$body['attention_content'];
+        foreach ($allow_ext as $allow_key => $allow_value) {
+            $allow_ext[$allow_key] = '.'.$allow_ext[$allow_key];
+        }
+        $allow_ext = implode(',',$allow_ext);
+        $attention_content = Request::$body['attention_content'];
         releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content);
         break;
     case 'getWorks':
@@ -96,12 +96,13 @@ function getWorks()
     {
         $has_upload = $db->has('work_upload',[
             'upload_by_user' => $user['id'],
-            'work_id' => $value['id']
+            'work_id' => $value['id'],
+            'has_upload' => 1
         ]);
 
-        $should_upload = $db->has('team',[
-            'user_num' =>  $user['user_num'],
-            'team_name' => $value['target_group']
+        $should_upload = $db->has('work_upload',[
+            'upload_by_user' => $user['id'],
+            'work_id' => $value['id']
         ]);
 
         // $re[$key]['allow_ext'] = $allow_ext;
@@ -136,6 +137,15 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
         'attention_content' => $attention_content,
         'release_by_user' => $GLOBALS['uid']
     ]);
+    $re = $db->get('work','id',[
+        'work_name' => $work_name
+    ]);
+    $re = $db->insert('work_upload',[
+        'upload_by_user' => $GLOBALS['uid'],
+        'work_id' => $re,
+        'has_upload' => 0
+    ]);
+
     if($inform_all)
     {
         /**
