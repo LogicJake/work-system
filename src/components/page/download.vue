@@ -50,7 +50,7 @@ export default {
     // },
     methods: {
         handleBatchDownload() {
-            const data = ['/api/upload/123.jpg'] // 需要下载打包的路径, 可以是本地相对路径, 也可以是跨域的全路径
+            const data = ['/work-system/api/upload/123.jpg'] // 需要下载打包的路径, 可以是本地相对路径, 也可以是跨域的全路径
             const zip = new JSZip()
             const cache = {}
             const promises = []

@@ -150,7 +150,7 @@
         },
         created(){
             this.token = localStorage.getItem('token');
-            this.uploadUrl = '/api/index.php?_action=upload&token=' + this.token;
+            this.uploadUrl = '/work-system/api/index.php?_action=upload&token=' + this.token;
             console.log(this.uploadUrl);
             console.log('ppppqweq');
             this.getData();
@@ -172,7 +172,7 @@
             },
             getData(){
                 let token = localStorage.getItem('token');
-                this.$ajax.get('/api/index.php?_action=postWork&action_type=getWorks&token='+token,{
+                this.$ajax.get('/work-system/api/index.php?_action=postWork&action_type=getWorks&token='+token,{
                     
                 }).then(re => {
                     this.works = re.data.data.works;

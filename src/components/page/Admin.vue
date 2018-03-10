@@ -92,11 +92,11 @@ const getFile = url => {
         },
         created(){
             this.token = localStorage.getItem('token');
-            this.url = '/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
-            this.workidurl = '/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
-            this.byworkid = '/api/index.php?_action=admin&action_type=get_upload_by_group&token='+this.token;
+            this.url = '/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.workidurl = '/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
+            this.byworkid = '/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&token='+this.token;
 //            this.getData();
-            this.remindoneurl = '/api/index.php?_action=admin&token='+this.token;
+            this.remindoneurl = '/work-system/api/index.php?_action=admin&token='+this.token;
             this.getWorkids();
         },
         computed: {
@@ -234,7 +234,7 @@ const getFile = url => {
                 val.forEach(to_d => {
                     if(to_d['has_upload']==1)
                     {
-                        var new_to_d = '/api/upload/'+this.work_id+'/'+to_d['file_name'];
+                        var new_to_d = '/work-system/api/upload/'+this.work_id+'/'+to_d['file_name'];
                         to_download.push(new_to_d);
                     }
                     else
