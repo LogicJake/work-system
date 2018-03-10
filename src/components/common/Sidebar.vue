@@ -122,7 +122,7 @@
         
         created(){
             this.token = localStorage.getItem('token');
-            this.url = '/api/index.php?_action=admin&action_type=check_is_admin&token='+this.token;
+            this.url = '/work-system/api/index.php?_action=admin&action_type=check_is_admin&token='+this.token;
                 let self = this;
                     self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
                     var work_release = {
