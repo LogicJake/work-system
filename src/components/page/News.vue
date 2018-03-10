@@ -2,11 +2,12 @@
    <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item><i class="el-icon-setting"></i> 自述</el-breadcrumb-item>
+                <el-breadcrumb-item><i class="el-icon-setting"></i> 公告</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="ms-doc">
-            <h3>README.md</h3>
+            <h3>作业列表</h3>
+                        <article>
             <div :data="works" class="card">
                 <el-card  v-for="work in works" :key="work" class="box-card">
                     <div slot="header" class="clearfix">
@@ -74,13 +75,40 @@
                 
 
             </div>
+                        </article>
         </div>
 
     </div>
 </template>
 <style>
+    .box-card{
+        margin: 20px;
+    }
     .expire{
         color: red;
+    }
+     .ms-doc article{
+        padding: 45px;
+        word-wrap: break-word;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+    .ms-doc{
+        width:100%;
+        max-width: 980px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    }
+     .ms-doc h3{
+        padding: 9px 10px 10px;
+        margin: 0;
+        font-size: 14px;
+        line-height: 17px;
+        background-color: #f5f5f5;
+        border: 1px solid #d8d8d8;
+        border-bottom: 0;
+        border-radius: 3px 3px 0 0;
     }
 </style>
 

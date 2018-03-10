@@ -23,8 +23,6 @@
                     <el-form-item  prop="email" label="邮箱">
                         <el-input v-model="work_form.email"></el-input>
                     </el-form-item>
-                </div>
-                <div  v-if="change==true">
                     <el-form-item>
                         <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
                         <el-button>取消</el-button>
@@ -100,8 +98,7 @@
                             console.log(re);
                             if(re.data.code == 0){
                                 this.$message.success('验证码已发至邮箱~');
-                                this.change=false;
-                                this.has_email=true;
+
                                 // localStorage.setItem('has_email',1);
                                 // self.$router.push('/readme');
                                 // location.reload();
@@ -139,6 +136,8 @@
                             if(re.data.code == 0){
                                 localStorage.setItem('has_email',1);
                                 this.$message.success('邮箱修改成功');
+                                this.change=false;
+                                this.has_email=true;
                                 // self.$router.push('/readme');
                                 // location.reload();
                             }else{
