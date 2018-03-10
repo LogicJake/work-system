@@ -79,11 +79,13 @@ if (empty($_FILES) === false) {
     $name = iconv('utf-8','gb2312',$file_path . $new_image_url);
     move_uploaded_file($_FILES["file"]["tmp_name"],$name);
 
-    $db->insert('work_upload',[
-            'upload_by_user' => $GLOBALS['uid'],
-            'work_id' => $_POST['work_id'],
+    $db->update('work_upload',[
             'file_name' => $new_image_url,
-            'add_time' => time()
+            'add_time' => time(),
+            'has_upload' => 1
+    ],[
+        'upload_by_user' => $GLOBALS['uid'],
+        'work_id' => $_POST['work_id'],
     ]);
 
     $result['image_url'] = $new_image_url;

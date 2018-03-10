@@ -11,50 +11,66 @@ function get_all_upload($work_id)
 function get_upload_by_work_id($work_id,$page_num)
 {
     global $db;
-    $result = array();
-    $target_group =  $db->get('work',['target_group'],[
-                'id' => $work_id
-            ])['target_group'];
-    $result = get_upload_by_group($target_group,$work_id);
-    return $result;
-}
-function get_upload_by_group($target_group,$work_id)
-{
-    global $db;
-
-    $re = $db->select('team',[
-        'user_num'
+    $res = $db->select('work_upload',[
+        'upload_by_user',
+        'add_time',
+        'file_name',
+        'has_upload'
     ],[
-        'team_name' => $target_group
+        'work_id' => $work_id
     ]);
-    foreach ($re as $key => $value) {
-        //根据学号找到id
-        $id = $db->get("user",[
-            "id"
-        ],[
-            "stu_num" => $value['user_num']
+    foreach($res as $r){
+        $stu_name = $db->get('user','stu_num',[
+            'id' => $r['upload_by_user']
         ]);
-        $has_upload =  $db->has('work_upload',[
-            'work_id' => $work_id,
-            'upload_by_user' => $id['id']
-        ]);
-        if($has_upload)
+        if($r['has_upload'] == 0)
+            $re[$stu_name]['has_upload'] = 0;
+        else
         {
-             $upload =  $db->get('work_upload',['add_time','file_name'],[
-                'work_id' => $work_id,
-                'upload_by_user' => $id['id']
-            ]);
-            $re[$key]['has_upload'] = 1;
-            $re[$key]['add_time'] = $upload['add_time'];
-            $re[$key]['file_name'] = $upload['file_name'];
-        }
-        else 
-        {
-            $re[$key]['has_upload'] = 0;
+            $re[$stu_name]['has_upload'] = 1;
+            $re[$stu_name]['add_time'] = $r['add_time'];
+            $re[$stu_name]['file_name'] = $r['file_name'];
         }
     }
     return $re;
 }
+// function get_upload_by_group($target_group,$work_id)
+// {
+//     global $db;
+
+//     // $re = $db->select('team',[
+//     //     'user_num'
+//     // ],[
+//     //     'team_name' => $target_group
+//     // ]);
+//     foreach ($re as $key => $value) {
+//         //根据学号找到id
+//         $id = $db->get("user",[
+//             "id"
+//         ],[
+//             "stu_num" => $value['user_num']
+//         ]);
+//         $has_upload =  $db->has('work_upload',[
+//             'work_id' => $work_id,
+//             'upload_by_user' => $id['id']
+//         ]);
+//         if($has_upload)
+//         {
+//              $upload =  $db->get('work_upload',['add_time','file_name'],[
+//                 'work_id' => $work_id,
+//                 'upload_by_user' => $id['id']
+//             ]);
+//             $re[$key]['has_upload'] = 1;
+//             $re[$key]['add_time'] = $upload['add_time'];
+//             $re[$key]['file_name'] = $upload['file_name'];
+//         }
+//         else 
+//         {
+//             $re[$key]['has_upload'] = 0;
+//         }
+//     }
+//     return $re;
+// }
 function get_work_ids($user_id)
 {
     global $db;
