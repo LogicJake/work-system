@@ -16,6 +16,9 @@ else
         if (!isset($_GET['code']))
     		Result::error('missing code');
     	verifyCode();
+		break;
+	case 'getMail':
+        getMail();
         break;
 	}
 	
@@ -75,7 +78,16 @@ function verifyCode(){
 /*
 	获取位长为len的数字字母验证码
 */
-
+function getMail(){
+    global $db;
+    $email = $db->get('user','email',[
+        'id'=>$GLOBALS['uid']
+	]);
+	if(strlen($email) < 2)
+		Result::error();
+	else
+    	Result::success($email);
+}
 function GetRandStr($len) 
 { 
     $chars = array( 
