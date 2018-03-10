@@ -29,10 +29,10 @@ module.exports = {
         proxyTable: {
             '/api': {
                 // target: 'http://localhost/work-system',
-                target: 'http://erestu.win/work-system',
+                target: 'http://erestu.win/',
                 changeOrigin: true,
                 pathRewrite: {
-                    '/api': '/api'
+                    '/api': '/work-system/api'
                 }
             }
             // ,
