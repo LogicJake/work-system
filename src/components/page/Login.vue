@@ -69,7 +69,7 @@
                                 if (filter.test(re.data.data.email))
                                 {
                                     // self.$router.push('/personalinfo');
-                                   self.$router.push('/readme');
+                                   self.$router.push('/news');
                                 }
                                 else
                                 {
@@ -78,7 +78,7 @@
                                 }
                                
                             }else{console.log(re.data);
-                             ///   self.$router.push('/readme');
+                             ///   self.$router.push('/news');
                                this.$message.error('似乎密码出现了错误~');
                             }
                         });
