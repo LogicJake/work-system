@@ -12,20 +12,31 @@
                 <!-- <el-form-item  prop="name" label="姓名">
                     <el-input v-model="work_form.name"></el-input>
                 </el-form-item> -->
-                <el-form-item  prop="email" label="邮箱">
-                    <el-input v-model="work_form.email"></el-input>
-                </el-form-item>
-                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
-                    <el-button>取消</el-button>
-                </el-form-item>
-                <el-form-item  prop="email_verifycode" label="验证码">
-                    <el-input v-model="work_form.email_verifycode"></el-input>
-                </el-form-item>
-                 <el-form-item>
-                    <el-button type="primary" @click="onSubmit_code('work_form')">提交</el-button>
-                    <el-button>取消</el-button>
-                </el-form-item>
+                <div v-if="has_email==true&&change==false">
+                    <el-form-item  prop="email" label="邮箱">
+                        <el-input v-model="work_form.email" :disabled="true"></el-input>
+                        <el-button @click="change=true;work_form.email=''">修改</el-button>
+                    </el-form-item>
+
+                </div>
+                <div v-if="has_email==false||change==true">
+                    <el-form-item  prop="email" label="邮箱">
+                        <el-input v-model="work_form.email"></el-input>
+                    </el-form-item>
+                </div>
+                <div  v-if="change==true">
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
+                        <el-button>取消</el-button>
+                    </el-form-item>
+                    <el-form-item  prop="email_verifycode" label="验证码">
+                        <el-input v-model="work_form.email_verifycode"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit_code('work_form')">提交</el-button>
+                        <el-button>取消</el-button>
+                    </el-form-item>
+                </div>
             </el-form>
         </div>
 
@@ -44,10 +55,35 @@
                         { required: true, message: '请输入邮箱', trigger: 'blur' }
                     ]
                    
-                }
+                },
+                change:true,
+                has_email:false,
+                email:'',
+                checkEmailUrl:''
             }
         },
+        created(){
+            this.token = localStorage.getItem('token');
+            this.checkEmailUrl = '/api/index.php?_action=verifyMailbox&action_type=getMail&token=' + this.token;
+            console.log('ppppqweq');
+            this.getData();
+            //  console.log(this.works);
+        },
         methods: {
+            getData(){
+                this.$ajax.get(this.checkEmailUrl).then(re=>{
+                    console.log(re);
+                    if(re.data.code==0)
+                    {
+                        this.email=re.data.data;
+                        this.work_form.email=re.data.data;
+                        this.has_email=true;
+                        this.change=false;
+                    }
+                });
+                console.log(this.work_form);
+
+            },
             onSubmit(formName) {
                 const self = this;
                 console.log(this);
@@ -64,6 +100,8 @@
                             console.log(re);
                             if(re.data.code == 0){
                                 this.$message.success('验证码已发至邮箱~');
+                                this.change=false;
+                                this.has_email=true;
                                 // localStorage.setItem('has_email',1);
                                 // self.$router.push('/readme');
                                 // location.reload();

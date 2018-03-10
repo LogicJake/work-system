@@ -12,27 +12,36 @@ function get_upload_by_work_id($work_id,$page_num)
 {
     global $db;
     $res = $db->select('work_upload',[
-        'upload_by_user',
-        'add_time',
-        'file_name',
-        'has_upload'
+        '[>]user'=>["upload_by_user"=>"id"]
+    ],[
+        'user.id(user_id)',
+        'user.stu_num',
+        'user.stu_name',
+        'work_upload.upload_by_user',
+        'work_upload.add_time',
+        'work_upload.file_name',
+        'work_upload.has_upload'
     ],[
         'work_id' => $work_id
     ]);
-    foreach($res as $r){
-        $stu_name = $db->get('user','stu_num',[
-            'id' => $r['upload_by_user']
-        ]);
-        if($r['has_upload'] == 0)
-            $re[$stu_name]['has_upload'] = 0;
-        else
-        {
-            $re[$stu_name]['has_upload'] = 1;
-            $re[$stu_name]['add_time'] = $r['add_time'];
-            $re[$stu_name]['file_name'] = $r['file_name'];
-        }
-    }
-    return $re;
+    // foreach($res as $key => $r){
+    //     $stu_info = $db->get('user',['stu_num','stu_name'],[
+    //         'id' => $r['upload_by_user']
+    //     ]);
+    //     if($r['has_upload'] == 0)
+    //     {
+    //         $re[$stu_num]['has_upload'] = 0;
+    //         $re[$stu_num]['add_time'] = $r['add_time'];
+    //         $re[$stu_num]['file_name'] = $r['file_name'];
+    //     }
+    //     else
+    //     {
+    //         $re[$stu_num]['has_upload'] = 1;
+    //         $re[$stu_num]['add_time'] = $r['add_time'];
+    //         $re[$stu_num]['file_name'] = $r['file_name'];
+    //     }
+    // }
+    return $res;
 }
 // function get_upload_by_group($target_group,$work_id)
 // {

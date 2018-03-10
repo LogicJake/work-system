@@ -219,10 +219,11 @@
                 console.log(myDate.getMonth());       //获取当前月份(0-11,0代表1月)
                 console.log(myDate.getDate()); 
                 var target_group_name = ''+ myDate.getFullYear() + '_' + myDate.getMonth() + '_' + myDate.getDate() + '_' + this.work_form.work_name;
+                var new_work_name = ''+ myDate.getFullYear() + '_' + myDate.getMonth() + '_' + myDate.getDate() + '_' + this.work_form.work_name;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
                         this.$ajax.post('/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
-                            'work_name': this.work_form.work_name,
+                            'work_name': new_work_name,//this.work_form.work_name,
                             'target_group': target_group_name,//this.work_form.target_group.join("-"),
                             'start_time': Date.parse(new Date(this.work_form.start_time))/1000,
                             'end_time': Date.parse(new Date(this.work_form.end_time))/1000,

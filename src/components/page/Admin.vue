@@ -169,7 +169,7 @@ const getFile = url => {
                 self.$axios.post(byworkidurl, {page:self.cur_page}).then((res) => {
                     self.tableData = res.data.data;
                     console.log(res);
-                    console.log(self.tableData);
+                    console.log(res.data.data);
                 })
             },
             handleCurrentChange(val){
