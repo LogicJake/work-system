@@ -13,7 +13,7 @@ require_once './include/work.function.php';
 $file_path="upload/";
 //664权限为文件属主和属组用户可读和写，其他用户只读。
 if(is_dir($file_path)!=TRUE){
-    mkdir($file_path,0664);
+    mkdir($file_path,0755);
 }
 
 if(isset($_POST['data']))
@@ -30,7 +30,7 @@ if(isset($_POST['work_id']))
 $user = get_person_info($GLOBALS['uid']);
 $file_path= $file_path . $_POST['work_id'] . '/';
 if(is_dir($file_path)!=TRUE){
-    mkdir($file_path,0664);
+    mkdir($file_path,0755);
 }
 
 if (empty($_FILES) === false) {
@@ -74,7 +74,7 @@ if (empty($_FILES) === false) {
     // $imageSalt = 'imageIsThere';
     // $imageName = md5($imageSalt . time() . mt_rand(0, 1e10));
     // $new_image_url = $imageName . ".jpg";
-    $new_image_url = $user['stu_num'] .$user['stu_name'] . '.'. $extension;
+    $new_image_url = $user['stu_num'] . '.'. $extension;
     $name = iconv('utf-8','gb2312',$file_path . $new_image_url);
     move_uploaded_file($_FILES["file"]["tmp_name"],$name);
 
@@ -86,7 +86,6 @@ if (empty($_FILES) === false) {
         'upload_by_user' => $GLOBALS['uid'],
         'work_id' => $_POST['work_id'],
     ]);
-
     $result['image_url'] = $new_image_url;
     $result['status'] = 200;
     Result::success($result);
