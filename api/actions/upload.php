@@ -1,5 +1,4 @@
 <?
-require_once './include/commonhead.inc.php';
 require_once './include/info.function.php';
 require_once './include/work.function.php';
 // if(!isset($_SESSION['admin'])){

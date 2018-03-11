@@ -47,7 +47,7 @@
                             提交时间已过期
                         </div>
                     </div>
-                    <div v-if="work.expired==false">
+                    <div v-if="work.expired==false&&work.should_upload==true">
                            
                         <el-collapse accordion>
                             <el-collapse-item>
