@@ -92,11 +92,12 @@ const getFile = url => {
         },
         created(){
             this.token = localStorage.getItem('token');
-            this.url = this.$domim+'/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
-            this.workidurl = this.$domim+'/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
-            this.byworkid = this.$domim+'/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&token='+this.token;
+            this.url = this.$domin+'/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&target_group=1615403&token='+this.token;
+            this.workidurl = this.$domin+'/work-system/api/index.php?_action=admin&action_type=get_work_ids&token='+this.token;
+            this.byworkid = this.$domin+'/work-system/api/index.php?_action=admin&action_type=get_upload_by_group&token='+this.token;
 //            this.getData();
-            this.remindoneurl = this.$domim+'/work-system/api/index.php?_action=admin&token='+this.token;
+            console.log(this.workidurl);
+            this.remindoneurl = this.$domin+'/work-system/api/index.php?_action=admin&token='+this.token;
             this.getWorkids();
         },
         computed: {

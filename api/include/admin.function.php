@@ -84,7 +84,16 @@ function get_work_ids($user_id)
 {
     global $db;
     // var_dump(check_is_admin($user_id));
-    if(check_is_admin($user_id))
+    if(check_is_admin($user_id)&&check_is_super($user_id))
+    {
+        $re = $db->select('work',['id','work_name'],[
+            "ORDER" => ["add_time" => "DESC"],
+        ]);
+        // var_dump('oopoppo');
+        // var_dump($re);
+        return $re;
+    }
+    else if(check_is_admin($user_id))
     {
         $re = $db->select('work',['id','work_name'],[
             'release_by_user' => $user_id,
@@ -97,6 +106,20 @@ function get_work_ids($user_id)
     else {
         return [];
     }
+}
+function check_is_super($user_id)
+{
+    global $db;
+    if($db->has('admin',[
+        'user_id' => $user_id,
+        'super' => 1
+    ]
+    )){
+        return true;
+    }
+    else {
+        return false;
+    }    
 }
 function check_is_admin($user_id)
 {
