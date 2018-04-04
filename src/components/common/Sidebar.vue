@@ -52,11 +52,6 @@
                     }
                 ],
                 items: [
-                    // {
-                    //     icon: 'el-icon-setting',
-                    //     index: 'readme',
-                    //     title: '自述'
-                    // },
                     {
                         icon: 'el-icon-setting',
                         index: 'news',
@@ -66,6 +61,11 @@
                         icon: 'el-icon-setting',
                         index: 'personalinfo',
                         title: '个人信息'
+                    },
+                    {
+                        icon: 'el-icon-setting',
+                        index: 'readme',
+                        title: '我要发布作业'
                     },
                     // {
                     //     icon: 'el-icon-menu',
@@ -122,7 +122,7 @@
         
         created(){
             this.token = localStorage.getItem('token');
-            this.url = '/work-system/api/index.php?_action=admin&action_type=check_is_admin&token='+this.token;
+            this.url = this.$domin+'/work-system/api/index.php?_action=admin&action_type=check_is_admin&token='+this.token;
                 let self = this;
                     self.$axios.post(self.url, {page:self.cur_page}).then((res) => {
                     var work_release = {

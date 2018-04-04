@@ -6,33 +6,26 @@
             </el-breadcrumb>
         </div>
         <div class="ms-doc">
-            <h3>README.md</h3>
+              <h3>我要发布作业</h3>
             <article>
-                <h1>manage-system</h1>
-                <p>基于Vue.js 2.x系列 + Element UI 的后台管理系统解决方案</p>
+                <h1>发布作业</h1>
+                <p>基于作业提交解决方案</p>
                 <h2>前言</h2>
-                <p>之前在公司用了Vue + Element组件库做了个后台管理系统，基本很多组件可以直接引用组件库的，但是也有一些需求无法满足。像图片裁剪上传、富文本编辑器、图表等这些在后台管理系统中很常见的功能，就需要引用其他的组件才能完成。从寻找组件，到使用组件的过程中，遇到了很多问题，也积累了宝贵的经验。所以我就把开发这个后台管理系统的经验，总结成这个后台管理系统解决方案。</p>
-                <p>该方案作为一套多功能的后台框架模板，适用于绝大部分的后台管理系统（Web Management System）开发。基于vue.js,使用vue-cli脚手架快速生成项目目录，引用Element UI组件库，方便开发快速简洁好看的组件。分离颜色样式，支持手动切换主题色，而且很方便使用自定义主题色。</p>
+                <p> 南航首家线上交作业平台上线了。以后作业收取均通过班级作业系统提交，请大家先到https://erestu.win/work-system/dist/index.html#/login进行登陆，账号密码为教务处账号密码。登陆成功后填写邮箱信息，以后作业发布会有邮件提醒。大家抓紧登陆报道，否则后续无法提交作业。ps：以后不通过其他途径接受作业，方便大家，方便你我</p>
+                <p>
+                    联系QQ:849467474或QQ:835410808成为管理员
+                </p>
+                <p><a href="https://www.logicjake.xyz/">科西嘉blog</a></p>
+                <p><a href="https://blog.erestu.win">小甲鱼blog</a></p>
+                <p> 感谢科西嘉,小甲鱼技术提供技术支持</p>
                 <h2>功能</h2>
-                <el-checkbox disabled checked>Element UI</el-checkbox>
+                <el-checkbox disabled checked>发布作业</el-checkbox>
                 <br>
-                <el-checkbox disabled checked>登录/注销</el-checkbox>
+                <el-checkbox disabled checked>查看交作业详情</el-checkbox>
                 <br>
-                <el-checkbox disabled checked>表格</el-checkbox>
+                <el-checkbox disabled checked>提醒交作业</el-checkbox>
                 <br>
-                <el-checkbox disabled checked>表单</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>图表</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>富文本编辑器</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>markdown编辑器</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>图片拖拽/裁剪上传</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>支持切换主题色</el-checkbox>
-                <br>
-                <el-checkbox disabled checked>列表拖拽排序</el-checkbox>
+                <el-checkbox disabled checked>打包下载</el-checkbox>
                 <br>
             </article>
         </div>

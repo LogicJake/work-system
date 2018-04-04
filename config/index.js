@@ -34,7 +34,15 @@ module.exports = {
                 pathRewrite: {
                     '/api': '/work-system/api'
                 }
-            }
+            },
+            // '/work-system': {
+            //     target: 'http://localhost/work-system',
+            //     // target: 'http://erestu.win/',
+            //     changeOrigin: true,
+            //     pathRewrite: {
+            //         '/work-system': '/work-system'
+            //     }
+            // }
             // ,
             // '/ms': {
             //     target: 'https://www.easy-mock.com/mock/592501a391470c0ac1fab128',

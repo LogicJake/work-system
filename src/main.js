@@ -15,6 +15,7 @@ Vue.use(ElementUI);
 //axios.defaults.baseURL='http://g.gg'
 Vue.prototype.$axios = axios;
 Vue.prototype.$ajax = axios;
+Vue.prototype.$domin = '';
 new Vue({
     router,
     render: h => h(App)

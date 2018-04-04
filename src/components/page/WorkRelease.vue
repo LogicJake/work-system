@@ -174,7 +174,7 @@
                 let token = localStorage.getItem('token');
                 this.dialogFormVisible = true ;
  
-                    this.$ajax.post('/work-system/api/index.php?_action=team&action_type=getbyteam&token='+token+"&teamname="+self.work_form.teamname,{
+                    this.$ajax.post(this.$domin+'/work-system/api/index.php?_action=team&action_type=getbyteam&token='+token+"&teamname="+self.work_form.teamname,{
                         "teamname":self.work_form.teamname
                     }).then(re => {
                         console.log(re.data);
@@ -193,7 +193,7 @@
                 let token = localStorage.getItem('token');
                 this.dialogFormVisible = true ;
  
-                    this.$ajax.post('/work-system/api/index.php?_action=team&action_type=getallteam&token='+token).then(re => {
+                    this.$ajax.post(this.$domin+'/work-system/api/index.php?_action=team&action_type=getallteam&token='+token).then(re => {
                         console.log(re.data);
                         console.log(re);
                         if(re.data.code == 0){
@@ -222,7 +222,8 @@
                 var new_work_name = ''+ myDate.getFullYear() + '_' + myDate.getMonth() + '_' + myDate.getDate() + '_' + this.work_form.work_name;
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.$ajax.post('/work-system/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
+                        console.log(this.$domin);
+                        this.$ajax.post(this.$domin+'/work-system/api/index.php?_action=postWork&action_type=releaseNewwork&token='+token,{
                             'work_name': new_work_name,//this.work_form.work_name,
                             'target_group': target_group_name,//this.work_form.target_group.join("-"),
                             'start_time': Date.parse(new Date(this.work_form.start_time))/1000,
