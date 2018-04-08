@@ -9,7 +9,8 @@ function getbyteamname($teamname){
         "user.stu_name",
         "user.id"
     ],[
-        "team.team_name" => $teamname
+        "team.team_name" => $teamname,
+        "ORDER" => ["user.stu_num"],
     ]);
     return $res;
 }
