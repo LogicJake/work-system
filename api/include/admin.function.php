@@ -22,7 +22,8 @@ function get_upload_by_work_id($work_id,$page_num)
         'work_upload.file_name',
         'work_upload.has_upload'
     ],[
-        'work_id' => $work_id
+        'work_id' => $work_id,
+        "ORDER" => ["user.stu_num"]
     ]);
     // foreach($res as $key => $r){
     //     $stu_info = $db->get('user',['stu_num','stu_name'],[
