@@ -28,7 +28,8 @@ function remiandAllbyGroup($teamname,$message){
 		],[
 			'stu_num' => $user_num,
 		]);
-		array_push($emails,$rr['email']);
+		if(strlen($rr['email'])>0)
+			array_push($emails,$rr['email']);
 	}
     $res = sendMail($emails,'作业发布',$message,false);
     return $res;
