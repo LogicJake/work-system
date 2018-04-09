@@ -19,6 +19,8 @@ switch($action_type){
         $allow_ext = Request::$body['allow_ext'];
         $allow_ext = explode("-", $allow_ext);
         $target_user_nums = Request::$body['target_user_nums'];
+        $download_format = Request::$body['download_format'];
+
 
         #insertteam($target_group,$target_user_nums);
 
@@ -27,7 +29,7 @@ switch($action_type){
         }
         $allow_ext = implode(',',$allow_ext);
         $attention_content = Request::$body['attention_content'];
-        releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums);
+        releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums,$download_format);
         break;
     case 'getWorks':
         getWorks();
@@ -123,7 +125,7 @@ function getWorks()
 }
 
 
-function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums)
+function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_all,$allow_ext,$attention_content,$target_user_nums,$download_format)
 {
     global $db;
     $re = $db->insert('work',[
@@ -135,7 +137,8 @@ function releaseNewwork($work_name,$target_group,$start_time,$end_time,$inform_a
         // 'inform_all' => $inform_all,
         'allow_ext' => $allow_ext,
         'attention_content' => $attention_content,
-        'release_by_user' => $GLOBALS['uid']
+        'release_by_user' => $GLOBALS['uid'],
+        'download_format' => $download_format
     ]);
     $re = $db->get('work','id',[
         'work_name' => $work_name

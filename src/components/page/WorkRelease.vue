@@ -87,10 +87,14 @@
                         <el-checkbox label="docx" name="allow_ext"></el-checkbox>
                         <el-checkbox label="zip" name="allow_ext"></el-checkbox>
                         <el-checkbox label="rar" name="allow_ext"></el-checkbox>
+                        <el-checkbox label="pdf" name="allow_ext"></el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item prop="attention_content" label="提交须知">
                     <el-input type="textarea" v-model="work_form.attention_content"></el-input>
+                </el-form-item>
+                <el-form-item prop="download_format" label="下载格式">
+                    <el-input type="text" v-model="work_form.download_format"></el-input>
                 </el-form-item>
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit('work_form')">提交</el-button>
@@ -124,7 +128,7 @@
                     target_stu:[],
                     // resource: '小天才',
                     attention_content: '',
-                   
+                    download_format:'{name}_{num}',
                    
                     teamname:'',
                     has_allteamname:0
@@ -231,7 +235,8 @@
                             'inform_all': this.work_form.inform_all,
                             'allow_ext': this.work_form.allow_ext.join("-"),
                             'attention_content': this.work_form.attention_content,
-                            "target_user_nums": this.work_form.target_stu
+                            "target_user_nums": this.work_form.target_stu,
+                            "download_format": this.work_form.download_format
                         }).then(re => {
                             console.log(re.data);
                             console.log(re);
