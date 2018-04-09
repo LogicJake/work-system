@@ -74,7 +74,14 @@ if (empty($_FILES) === false) {
     // $imageSalt = 'imageIsThere';
     // $imageName = md5($imageSalt . time() . mt_rand(0, 1e10));
     // $new_image_url = $imageName . ".jpg";
-    $new_image_url = $user['stu_num']. '_' . $user['stu_name'] . '.'. $extension;
+    $workid = $_POST['work_id'];
+    $res = $db->get("work","download_format",[
+        "id"=>$workid
+    ]);
+    $res = str_replace("{name}",$user['stu_name'],$res);
+    $res = str_replace("{num}",$user['stu_num'],$res);
+    $new_image_url = $res . '.'. $extension;
+
     $name = iconv('utf-8','gb2312',$file_path . $new_image_url);
     $name = $file_path . $new_image_url;
     move_uploaded_file($_FILES["file"]["tmp_name"],$name);
